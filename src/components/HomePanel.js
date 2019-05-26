@@ -4,12 +4,16 @@ import {createAppContainer, createStackNavigator} from 'react-navigation'; // Ve
 import Styles from "../utils/Styles";
 import Brief from "./Brief"
 import { Button } from 'react-native-elements';
+import Global from '../utils/Global'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Comment from './Comment'
+import {lecture_history_test} from "../realm/lecture_history_test";
+
 class HomePanel extends Component {
+
   static navigationOptions = ({navigation}) => {
     return {
-      title: '讲座管理',
+      title: '乐看',
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
       headerLeft: (
@@ -17,14 +21,14 @@ class HomePanel extends Component {
       ),
       headerRight: (
         <View style={styles.addBtn}>
-        <Button
-          style={{borderRadius:20}}
-          type="clear"
-          icon={<Icon name="plus" size={20} color="white"/>}
-          onPress={() => {
-            // navigation.navigate('Scanner')
-          }}
-        />
+          <Button
+            style={{borderRadius:20}}
+            type="clear"
+            icon={<Icon name="plus" size={20} color={Global.blue}/>}
+            onPress={() => {
+              // navigation.navigate('Scanner')
+            }}
+          />
         </View>
         // <MyView>
         //   <View style={styles.backBtn} onPress={() => {
@@ -66,7 +70,7 @@ const KitStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Comment',
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,

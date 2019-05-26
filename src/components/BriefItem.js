@@ -12,15 +12,22 @@ class BriefItem extends Component {
   constructor(props) {
     super(props);
   }
-
+  checkDetail(id){
+    //todo get all info
+    this.props.navigation.navigate('Comment')
+  }
   render() {
-    const rightBtns = [{text: '删除',backgroundColor: "#D06651"}];
+    //右边button属性
+    const rightBtns = [{text: '删除',backgroundColor: "gray",color:'red',borderRadius:10,borderWidth:1,borderColor:'black',marginLeft:7}];
     return (
-      <Swipeout right={rightBtns}>
-        <View onPress={() => this.props.navigation.navigate('Detail')}>
-          <View style={styles.container}>
-            <Text>{this.props.history.id}</Text>
-            <Text>{this.props.history.title}</Text>
+      <Swipeout right={rightBtns} style={{backgroundColor:'white'}}>
+        <View style={styles.container} onPress={() => this.checkDetail(this.props.history.id)}>
+          <View >
+            <Text style={{fontSize:18}}>{this.props.history.title}</Text>
+          </View>
+          <View style={{flex:1,flexDirection:'row',fontSize:10}}>
+            <Text style={{flex:1}}>2019-10-2 22:12:10</Text>
+            <Text style={{flex:1}}>主讲人：{this.props.history.professor}</Text>
           </View>
         </View>
       </Swipeout>
@@ -30,58 +37,17 @@ class BriefItem extends Component {
 
 let styles = StyleSheet.create({
   container: {
+    backgroundColor:'white',
     flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#F5FCFF",
-    paddingLeft:width*0.06,
-    paddingRight:width*0.045,
+    paddingLeft:20,
+    paddingRight:20,
     paddingBottom:8,
     paddingTop:8,
+    borderWidth:1,
+    borderRadius:10
   },
-  imageContainer:{
-    flex: 2,
-  },
-  middleContainer: {
 
-    flex: 6,
-  },
-  timeContainer:{
-    flexDirection:'row',
-    justifyContent:'flex-end',
-    flex:2, alignSelf:'center',
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: Global.fontSize-2,
-    color:'#304167'
-  },
-  tag:{
 
-  },
-  badgeStyle:{
-    height: 24,
-    borderRadius:12,
-    marginRight:5,
-    paddingLeft:3,
-    paddingRight:3,
-    marginBottom:3
-  },
-  textStyle:{
-    fontSize:Global.fontSize-5,
-    textAlignVertical:'center',
-  },
-  dosage: {
-    fontSize:Global.fontSize-4,
-    color:'#8B909A',
-    fontWeight:'100',
-    marginBottom: 4,
-    marginTop: 4,
-  },
-  picture: {
-    borderRadius:width*0.08,
-    width: width*0.16,
-    height: width*0.16,
-  }
 });
 
 

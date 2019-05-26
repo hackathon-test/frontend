@@ -9,18 +9,13 @@ export default StyleSheet.create(
       textAlign: 'center',
       flex: 1,
       fontSize: Global.fontSize,
-      color: '#FEFEFE'
+      color: Global.blue
     },
     headerStyle: {
       paddingTop:StatusBar.currentHeight,
-      backgroundColor: Global.blue,
+      backgroundColor: '#F9F9F9',
       height: Global.titleHeight +StatusBar.currentHeight ,
-      shadowColor: Global.blue,
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      shadowOffset: {
-        height: 0,
-      },
+
       elevation: 0,
     }
   });
