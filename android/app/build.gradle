@@ -95,7 +95,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 28
+    buildToolsVersion "28.0.1"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -118,10 +119,22 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('CHARLES_RELEASE_STORE_FILE')) {
+                storeFile file(CHARLES_RELEASE_STORE_FILE)
+                storePassword CHARLES_RELEASE_STORE_PASSWORD
+                keyAlias CHARLES_RELEASE_KEY_ALIAS
+                keyPassword CHARLES_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -141,7 +154,6 @@ android {
 
 dependencies {
     implementation project(':realm')
-    implementation project(':react-native-picker')
     implementation project(':react-native-fs')
     implementation project(':react-native-camera')
     implementation project(':react-native-gesture-handler')

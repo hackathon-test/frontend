@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {StatusBar, StyleSheet, View, PermissionsAndroid} from 'react-native';
 import {createAppContainer, createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
 import Styles from "../utils/Styles";
-import Brief from "./Brief"
+import Brief from "./Brief";
 import { Button } from 'react-native-elements';
-import Global from '../utils/Global'
+import Global from '../utils/Global';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Comment from './Comment'
+import Comment from './Comment';
+import CreateLecture from './CreateLecture';
 import {lecture_history_test} from "../realm/lecture_history_test";
 
 class HomePanel extends Component {
@@ -26,7 +27,7 @@ class HomePanel extends Component {
             type="clear"
             icon={<Icon name="plus" size={20} color={Global.blue}/>}
             onPress={() => {
-              // navigation.navigate('Scanner')
+              navigation.navigate('CreateLecture')
             }}
           />
         </View>
@@ -67,7 +68,10 @@ const KitStack = createStackNavigator(
     },
     Comment:{
       screen: Comment
-    }
+    },
+    CreateLecture: {
+      screen: CreateLecture
+    },
   },
   {
     initialRouteName: 'Home',
@@ -89,9 +93,7 @@ KitStack.navigationOptions = ({navigation}) => {
 
 export default createAppContainer(KitStack);
 
-
 var styles = StyleSheet.create({
-
   addBtn: {
     height: 40,
     width: 50,
