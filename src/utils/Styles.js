@@ -15,7 +15,6 @@ export default StyleSheet.create(
       paddingTop:StatusBar.currentHeight,
       backgroundColor: '#F9F9F9',
       height: Global.titleHeight +StatusBar.currentHeight ,
-
       elevation: 0,
     }
   });
