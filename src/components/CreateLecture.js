@@ -13,7 +13,7 @@ export default class CreateLecture extends Component {
       this.state = {
         title: '',
         speaker: '',
-        beginTime: '',
+        beginTime: formatTime(new Date()),
         duration: '1',
         isDateTimePickerVisible: false,
         isDurationWarningVisible: false
@@ -45,24 +45,37 @@ export default class CreateLecture extends Component {
       });
     }
 
+    handleSpeakerChange = (value) => {
+      this.setState({
+        speaker: value
+      });
+    }
+
     handleDurationChange = (value) => {
-      console.log(value);
-      console.log(value === '');
-      if (value === '' || this._isValidDuration(value)) {
-        this.setState({
-          duration: value,
-          isDurationWarningVisible: false
-        });
-      }
-      else {
-        this.setState({
-          isDurationWarningVisible: true
-        });
-      }
+      this.setState({
+        duration: value,
+      });
+    }
+
+    checkDuration = (e) => {
+      value = e.nativeEvent.text
+      this.setState({
+        isDurationWarningVisible: ! (value === '' || this._isValidDuration(value))
+      });
     }
 
     handleConfirm = () => {
-      // TODO 判断输入合法性
+      // 判断输入合法性
+      if (this.state.duration._isValidDuration(value)) {
+        this.setState({
+          isDurationWarningVisible: false
+        })
+      } else {
+        this.setState({
+          isDurationWarningVisible: true
+        })
+        return;
+      }
       data = {
         title: this.state.title,
         speaker: this.state.speaker,
@@ -103,7 +116,7 @@ export default class CreateLecture extends Component {
               </View>
               <View style={styles.input}>
                 <Text style={styles.label}>主讲人</Text>
-                <TextInput style={styles.textInput} value={this.state.title} onChangeText={this.handleTitleChange}></TextInput>
+                <TextInput style={styles.textInput} value={this.state.speaker} onChangeText={this.handleSpeakerChange}></TextInput>
               </View>
               <View style={styles.input}>
                 <Text style={styles.label}>开始时间</Text>
@@ -113,7 +126,7 @@ export default class CreateLecture extends Component {
               </View>
               <View style={styles.input}>
                 <Text style={styles.label}>讲座讨论开放天数</Text>
-                <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} />
+                <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} onEndEditing={this.checkDuration} />
                 {this.state.isDurationWarningVisible ? <Text style={styles.warning} >{`请输入 1~${MAX_LECTURE_DURATION} 间的数字！`}</Text> : null}
               </View>
             </View>
