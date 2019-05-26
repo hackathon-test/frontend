@@ -11,7 +11,6 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   StatusBar,
-
 } from 'react-native';
 import {Button,  Badge} from 'react-native-elements';
 import Styles from '../utils/Styles'
@@ -24,17 +23,15 @@ export default class Comment extends Component {
 
     const {params} = navigation.state;
     return {
-
       title: params ? params.title : '未命名的讲座',
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
       headerBackTitle: (<View></View>),
       headerLeft: (
-        <View style={styles.backBtn}>
+        <View style={{marginLeft: 5}}>
           <Button
-            style={{borderRadius: 20}}
             type="clear"
-            icon={<Icon name="arrow-left" size={20} color="white"/>}
+            icon={<Icon name="arrow-left" size={20} color="white" />}
             onPress={() => {
               navigation.navigate('Home')
             }}
@@ -42,7 +39,13 @@ export default class Comment extends Component {
         </View>
       ),
       headerRight: (
-        <View style={styles.backBtn}></View>
+        <View style={{marginRight: 5}}>
+          <Button
+            type="clear"
+            icon={<Icon name="qrcode" size={25} color="white" />}
+            onPress={this.showQRCode}
+          /> 
+        </View>
       )
     }
   };
@@ -91,13 +94,17 @@ export default class Comment extends Component {
     })
   }
 
+  showQRCode = () => {
+    // TODO 显示讲座二维码
+    console.log('Show QR Code!');
+  }
+
   render() {
     const item = {
 
     }
 
     return (
-
 
         <KeyboardAvoidingView
           keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}

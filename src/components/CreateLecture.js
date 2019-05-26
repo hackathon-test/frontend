@@ -5,8 +5,62 @@ import Global from '../utils/Global';
 import { formatTime } from '../utils/Date';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {MAX_LECTURE_DURATION, SERVER} from '../utils/Constants';
+import Styles from '../utils/Styles';
+import {Button} from 'react-native-elements';
+
 
 export default class CreateLecture extends Component {
+
+    // static navigationOptions = {
+    //   header: null
+    // };
+
+    // static navigationOptions = ({navigation}) => {
+    //   const {params} = navigation.state;
+    //   return {
+    //     title: params ? params.title : '未命名的讲座',
+    //     headerTitleStyle: Styles.title,
+    //     headerStyle: Styles.headerStyle,
+    //     headerBackTitle: (<View></View>),
+    //     headerLeft: (
+    //       <View style={{borderRadius: 20, marginLeft: 5}}>
+    //         <Button
+    //           type="clear"
+    //           icon={<Icon name="arrow-left" size={20} color="white" />}
+    //           onPress={() => {
+    //             navigation.navigate('Home')
+    //           }}
+    //         />
+    //       </View>
+    //     ),
+    //     headerRight: (<View></View>)
+    //   }
+    // };
+
+    static navigationOptions = ({navigation}) => {
+
+      const {params} = navigation.state;
+      return {
+        title: '创建讲座',
+        headerTitleStyle: Styles.title,
+        headerStyle: Styles.headerStyle,
+        headerBackTitle: (<View></View>),
+        headerLeft: (
+          <View style={{marginLeft: 5, borderRadius: 20}}>
+            <Button
+              type="clear"
+              icon={<Icon name="arrow-left" size={20} color={Global.bl} />}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          </View>
+        ),
+        headerRight: (
+          <View></View>
+        )
+      }
+    };
 
     constructor (props) {
       super(props);
@@ -104,14 +158,14 @@ export default class CreateLecture extends Component {
     render () {
       return (
         <View style={styles.container}>
-          <View style={styles.statusBar}></View>
+          {/* <View style={styles.statusBar}></View> */}
           <View style={styles.main}>
             <View style={styles.title}>
               <Text style={styles.titleText}>请填写讲座相关信息</Text>
             </View>
             <View style={styles.form}>
               <View style={styles.input}>
-                <Text style={styles.label}>讲座课题</Text>
+                <Text style={styles.label}>讲座主题</Text>
                 <TextInput style={styles.textInput} value={this.state.title} onChangeText={this.handleTitleChange}></TextInput>
               </View>
               <View style={styles.input}>
@@ -129,12 +183,12 @@ export default class CreateLecture extends Component {
                 <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} onEndEditing={this.checkDuration} />
                 {this.state.isDurationWarningVisible ? <Text style={styles.warning} >{`请输入 1~${MAX_LECTURE_DURATION} 间的数字！`}</Text> : null}
               </View>
-            </View>
-            <TouchableOpacity style={styles.confirmButton} onPress={this.handleConfirm}>
+              <TouchableOpacity style={styles.confirmButton} onPress={this.handleConfirm}>
               <View style={styles.confirmContainer}>
                 <Text style={styles.confirmText}>确认创建</Text>
               </View>
             </TouchableOpacity>
+            </View>
             <DateTimePicker 
               mode='datetime' 
               isVisible={this.state.isDateTimePickerVisible} 
@@ -156,10 +210,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
   },
-  statusBar: {
-    height: StatusBar.currentHeight,
-    backgroundColor: 'transparent',
-  },
+  // statusBar: {
+  //   height: StatusBar.currentHeight,
+  //   backgroundColor: 'transparent',
+  // },
   main: {
     height: Dimensions.get('screen').height - StatusBar.currentHeight,
     flexDirection: 'column',
@@ -219,6 +273,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     height: 50,
+    marginTop: 20,
     backgroundColor: '#ff0',
     marginBottom: 50,
     width: Dimensions.get('window').width * 0.8,
