@@ -3,6 +3,7 @@ import {ActivityIndicator, TextInput,FlatList, StyleSheet, View, Image,Text,Dime
 import { Button } from 'react-native-elements';
 import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import CommentItem from './CommentItem';
 import Global from '../utils/Global'
 export default class Comment extends Component {
   static navigationOptions = ({navigation}) => {
@@ -60,12 +61,19 @@ export default class Comment extends Component {
     })
   }
   render(){
+    const item = {
+      name: '昵称test',
+      comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
+    }
+
     return (
       <View style={{flex:1,justifyContent:'flex-end'}}>
         <View style ={{flex:1}}>
 
           <View style={{flex:1,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-              <Image source={require('../img/camera.png')}/>
+            <CommentItem item = {item}/>
+
+            <Image source={require('../img/camera.png')}/>
           </View>
         </View>
         <View style ={{minHeight:80,backgroundColor:'red'}}>
