@@ -17,6 +17,7 @@ import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CommentItem from './CommentItem';
 import Global from '../utils/Global'
+import {SERVER} from "../utils/Constants";
 
 export default class Comment extends Component {
   static navigationOptions = ({navigation}) => {
@@ -44,7 +45,7 @@ export default class Comment extends Component {
             type="clear"
             icon={<Icon name="qrcode" size={25} color={Global.blue} />}
             onPress={this.showQRCode}
-          /> 
+          />
         </View>
       )
     }
@@ -53,38 +54,49 @@ export default class Comment extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      lectureId: 0,
       comments: [],
       nickname: '',
       myComment: '',
       loaded: false,
     };
+
+    this.fetchData = this.fetchData.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.setState({
+      lectureId: this.props.navigation.getParam('lectureId')
+    });
     this.fetchData();
   }
 
   fetchData() {
-    let comments = [{id: 123456,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
-    },{id: 1246,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
-    },{id: 12345,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
-    }]
-    this.setState({
-      comments: this.state.comments.concat(comments)
-    });
-    // fetch(REQUEST_URL)
-    //   .then(response => response.json())
-    //   .then(responseData => {
-    //     // 注意，这里使用了this关键字，为了保证this在调用时仍然指向当前组件，我们需要对其进行“绑定”操作
-    //     this.setState({
-    //       data: this.state.data.concat(responseData.movies),
-    //       loaded: true
-    //     });
-    //   });
+    let url = `${SERVER}/lectures/${this.state.lectureId}`;
+    console.log(url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    }).then(res => {
+      console.log(res)
+      res.json().then(json => {
+        // const resp = JSON.parse(json)
+        console.log(json)
+
+        this.setState({
+          comments: json['comments']
+        });
+      })
+    }).catch(
+      err => console.log(err)
+    );
   }
-  setNickname(name) {
+
+  setNickname(nickname) {
     this.setState({
-      nickname: name,
+      nickname: nickname,
     })
   }
 
@@ -100,27 +112,23 @@ export default class Comment extends Component {
   }
 
   render() {
-    const item = {
-
-    }
-
     return (
 
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}
-          behavior='padding' style={{ flex: 1, justifyContent:'flex-end'}}>
-          <FlatList
-            data={this.state.comments}
-            keyExtractor={item => item.id+''}
-            renderItem={(item, index) => <CommentItem item={item.item}/>}
-          />
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={StatusBar.currentHeight + Global.titleHeight}
+        behavior='padding' style={{flex: 1, justifyContent: 'flex-end'}}>
+        <FlatList
+          data={this.state.comments}
+          keyExtractor={item => item.id + ''}
+          renderItem={(item, index) => <CommentItem item={item.item}/>}
+        />
 
-        <View style={{ backgroundColor: 'red'}}>
-          <View style={{flexDirection: 'row', backgroundColor: '#123456',height:40, alignItems: 'center',}}>
+        <View style={{backgroundColor: 'red'}}>
+          <View style={{flexDirection: 'row', backgroundColor: '#123456', height: 40, alignItems: 'center',}}>
             <Text style={{color: 'white', fontSize: 18}}>昵称</Text>
             <View>
             <TextInput
-              onChangeText={() => this.setNickname()}
+              onChangeText={(text) => this.setNickname(text)}
               value={this.state.nickname}
               style={{
               textAlign: 'center',
@@ -137,14 +145,47 @@ export default class Comment extends Component {
               lineHeight: 24
             }} maxLength={6} placeholder={'输入评论昵称'}/>
             </View>
-            <Badge onPress={() => {}}
-                   key={'send'} textStyle={styles.badgeTextStyle}
-                   badgeStyle={styles.badgeStyle}
-                   value={'发送'}/>
+            <Badge
+              onPress={() => {
+                let commentData={
+                  nickName: this.state.nickname,
+                  text: this.state.myComment
+                }
+
+                let url = `${SERVER}/comments?lectureId=${this.state.lectureId}`
+                fetch(url, {
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+
+                  body: JSON.stringify(commentData)
+                }).then(res => {
+                  console.log(res)
+                  res.json().then(json => {
+                    // const resp = JSON.parse(json)
+                    console.log(json)
+
+                    let nowComments = []
+                    nowComments.push(this.state.comments)
+                    nowComments.push(json)
+                    this.setState({
+                      comments: nowComments
+                    })
+                  })
+                }).catch(
+                  err => console.log(err)
+                );
+              }}
+              key={'send'} textStyle={styles.badgeTextStyle}
+              badgeStyle={styles.badgeStyle}
+              value={'发送'}/>
           </View>
-          <View style={{minHeight:40,backgroundColor: 'white'}}>
+          <View style={{minHeight: 40, backgroundColor: 'white'}}>
+            {/*TODO editing 可编辑*/}
             <TextInput
-              onChangeText={() => this.setMyComment()}
+              onChangeText={(text) => this.setMyComment(text)}
               value={this.state.myComment}
               multiline={true}
               style={styles.inputTextStyle}
@@ -153,7 +194,7 @@ export default class Comment extends Component {
             />
           </View>
         </View>
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
     )
   }
 }

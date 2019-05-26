@@ -114,13 +114,13 @@ export default class CreateLecture extends Component {
     checkDuration = (e) => {
       let value = e.nativeEvent.text
       this.setState({
-        isDurationWarningVisible: ! (value === '' || this._isValidDuration(value))
+        isDurationWarningVisible: ! (value === '' || CreateLecture._isValidDuration(value))
       });
     }
 
     handleConfirm = () => {
       // 判断输入合法性
-      if (this.state.duration._isValidDuration(value)) {
+      if (CreateLecture._isValidDuration(this.state.duration)) {
         this.setState({
           isDurationWarningVisible: false
         })
@@ -133,24 +133,30 @@ export default class CreateLecture extends Component {
       let data = {
         title: this.state.title,
         speaker: this.state.speaker,
-        beginTime: this.state.beginTime,
-        duration: this.state.duration
+        start: this.state.beginTime,
+        validityDays: this.state.duration
       }
       fetch(`${SERVER}/lectures`, {
         method: 'POST',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(data)
       })
-      .then(
-        // TODO
-      )
+      .then(res => {
+        res.json().then(json => {
+          console.log(json)
+          // TODO 传给CreateSuccess
+        })
+
+      })
       .catch(
         err => console.log(err)
       );
     }
 
-    _isValidDuration(str) {
+    static _isValidDuration(str) {
       let n = Math.floor(Number(str));
       return n !== Infinity && String(n) === str && n >= 1 && n <= MAX_LECTURE_DURATION;
     }
@@ -189,15 +195,15 @@ export default class CreateLecture extends Component {
               </View>
             </TouchableOpacity>
             </View>
-            <DateTimePicker 
-              mode='datetime' 
-              isVisible={this.state.isDateTimePickerVisible} 
+            <DateTimePicker
+              mode='datetime'
+              isVisible={this.state.isDateTimePickerVisible}
               datePickerModeAndroid='spinner'
               timePickerModeAndroid='spinner'
               onConfirm={this.handleDateTimePicked}
               onCancel={this.hideDateTimePicker}
             />
-          </View> 
+          </View>
         </View>
       );
     }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar, Dimensions, Text, Image, Picker, TextInput, StyleSheet, View, PermissionsAndroid, TouchableOpacity} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Global from '../utils/Global';
 import {RNCamera} from 'react-native-camera';
 
@@ -40,12 +40,13 @@ export default class ScanQRCode extends Component {
   }
 
   handleBarCodeRead = (e) => {
+    // TODO 加状态位防抖动
     this.props.navigation.navigate('Comment', {lectureId: e.data});
   }
 
-  render () {
+  render() {
     const {cameraWidth, cameraHeight, focusAreaLeft, focusAreaTop, focusAreaWidth, focusAreaHeight} = this.state;
-    
+
     return (
       <View style={styles.container}>
       <StatusBar translucent={true}/>
@@ -83,7 +84,7 @@ export default class ScanQRCode extends Component {
     );
   }
 
-    
+
 }
 
 const styles = StyleSheet.create({
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   recognizeSwitch: {
     position: 'absolute',
     backgroundColor: 'transparent',
-    
+
   },
   focusArea: {
     position: 'absolute',
@@ -155,7 +156,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     color: '#c5c5c5',
-    textAlign: 'center',
   }
 });
 

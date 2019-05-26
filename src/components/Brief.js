@@ -54,7 +54,7 @@ class Brief extends Component {
         <View style={{flex:10,justifyContent:'center',backgroundColor:'#F9F9F9',alignItems:'center'}}>
             <Button
               type="clear"
-              onPress={()=>this.props.navigation.navigate('Comment',{title: '马拉松比赛讲座'})}
+              onPress={()=>this.props.navigation.navigate('ScanQR')}
               icon={
                 <Icon
                   name="qrcode-scan"

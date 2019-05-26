@@ -14,14 +14,14 @@ export default class CommentItem extends Component {
         <View style={styles.border}>
           <View>
             <Text>
-              {this.props.item.name}
+              {this.props.item.nickName}
             </Text>
           </View>
           <Divider style={{backgroundColor: 'blue', height: 5}}/>
           <View style={{height: 80}}>
             <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', display: 'flex'}}>
               <Text>
-                {this.props.item.comment}
+                {this.props.item.text}
               </Text>
             </View>
           </View>
