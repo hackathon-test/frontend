@@ -38,6 +38,8 @@ class Brief extends Component {
     this._closeHandlers = {
       onStartShouldSetResponder: () => true,
       onMoveShouldSetResponder: ()=> true,
+      onPanResponderGrant: () => {
+        console.log("22222")},
       onResponderRelease: ()=>{this.refs.modal.close()
       console.log("21345678")},
     }
@@ -105,13 +107,15 @@ const styles = StyleSheet.create({
   modal: {
     borderTopRightRadius:10,
     borderTopLeftRadius:10,
-    width: width * 0.99,
-    height: height ,
+    width: width * 0.98,
     marginTop:-40,
+    height:height+40,
+    paddingBottom:40,
     justifyContent:'center',
-    padding: 10,
+    paddingRight:10,
+    paddingLeft:10,
+    paddingBottom:10,
     backgroundColor:'white',
-    elevation: 5,
   },
   list: {
     backgroundColor: "white",
