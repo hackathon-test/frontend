@@ -13,7 +13,7 @@ class HomePanel extends Component {
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
       headerLeft: (
-        <View style={styles.addBtn}/>
+        <View style={styles.backBtn}/>
       ),
       headerRight: (
         <View style={styles.addBtn}>
@@ -27,7 +27,7 @@ class HomePanel extends Component {
         />
         </View>
         // <MyView>
-        //   <View style={styles.addBtn} onPress={() => {
+        //   <View style={styles.backBtn} onPress={() => {
         //     navigation.navigate('Scanner')
         //   }}>
         //     <Icon
@@ -66,7 +66,7 @@ const KitStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Comment',
     defaultNavigationOptions: {
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,

@@ -1,14 +1,42 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
-import Modal from 'react-native-modalbox';
-import BriefItem from './BriefItem'
+import {ActivityIndicator, TextInput,FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
+import { Button } from 'react-native-elements';
+import Styles from '../utils/Styles'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Global from '../utils/Global'
+export default class Comment extends Component {
+  static navigationOptions = ({navigation}) => {
+    const { params } = navigation.state;
+    return {
 
-export default class Brief extends Component {
+      title:  params ? params.title : '未命名的讲座',
+      headerTitleStyle: Styles.title,
+      headerStyle: Styles.headerStyle,
+      headerBackTitle:(<View></View>),
+      headerLeft: (
+        <View style={styles.backBtn}>
+          <Button
+            style={{borderRadius:20}}
+            type="clear"
+            icon={<Icon name="arrow-left" size={20} color="white"/>}
+            onPress={() => {
+              navigation.navigate('Home')
+            }}
+          />
+        </View>
+      ),
+      headerRight: (
+        <View style={styles.backBtn}></View>
+      )
+    }
+  };
   constructor(props) {
     super(props);
 
     this.state = {
-      history: [{id:123456,name:'关于环境治理问题'}],
+      comment: [],
+      nickname:'',
+      myComment:'',
       loaded: false,
     };
   }
@@ -16,47 +44,59 @@ export default class Brief extends Component {
     this.fetchData();
   }
   fetchData() {
-    let history = [{id:123456,title:'关于环境治理问题'},{id:1256,title:'关于环境治理问题'}]
+    let comment = [{id:123456,title:'关于环境治理问题'},{id:1256,title:'关于环境治理问题'}]
     this.setState({
-      history: history,
+      comment: comment,
     });
   }
-  componentWillMount(){
-    this._gestureHandlers = {
-      onStartShouldSetResponder: () => true,
-      onMoveShouldSetResponder: ()=> true,
-      onResponderMove: ()=>{this.refs.modal.open()},
-    }
+  setNickname(name) {
+    this.setState({
+      nickname: name,
+    })
+  }
+  setMyComment(myComment) {
+    this.setState({
+      myComment: myComment,
+    })
   }
   render(){
     return (
-      <View style={{flex:1}}>
-        <View style={{flex:8,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-          <Image source={require('../img/camera.png')}/>
-        </View>
-        <View  {...this._gestureHandlers}
-          style={{flex:1}}>
-          <View style={{height:210,backgroundColor:'red',borderRadius:100}}>
-            <Text style={{textAlign:'center'}}>我的讲座</Text>
+      <View style={{flex:1,justifyContent:'flex-end'}}>
+        <View style ={{flex:1}}>
+
+          <View style={{flex:1,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
+              <Image source={require('../img/camera.png')}/>
           </View>
         </View>
-        <Modal
-          style={[styles.modal]} position={"bottom"} ref={"modal"}
-          swipeToClose={true}
-        >
-          <View style={{flex:1}}>
-            <View><Text>我的讲座</Text></View>
-            <View style={{flex:1}}>
-              <FlatList
-                // ItemSeparatorComponent={() => this.renderSeparator()}
-                data={this.state.history}
-                renderItem={(item, index) => <BriefItem history={item.item}/>}
-                style={styles.list}
-                keyExtractor={item => item.id + ""}
-              />
-            </View>
+        <View style ={{minHeight:80,backgroundColor:'red'}}>
+          <View style={{flexDirection:'row',backgroundColor:'#123456',flex:1,alignItems:'center',}}>
+            <Text style={{color:'white',fontSize:18}}>昵称</Text>
+            <TextInput onChangeText={()=>this.setNickname()} value={this.state.nickname} style={{
+              textAlign: 'center',
+              fontSize: 16,
+              color: 'white',
+              backgroundColor:'gray',
+              borderRadius: 18,
+              height: 30,
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: 10,
+              paddingRight: 10,
+              textAlignVertical: 'center',
+              lineHeight: 24
+            }} maxLength={6} placeholder={'输入评论昵称'}/>
           </View>
-        </Modal>
+          <View style ={{flex:1,backgroundColor:'white'}}>
+            <TextInput
+              multiline={true}
+              style={styles.inputTextStyle}
+              placeholder='在此输入评论内容'
+              // underlineColorAndroid={Global.blue}
+              onChangeText={()=>this.setMyComment}
+              value={this.state.myComment}
+            />
+          </View>
+        </View>
       </View>
     )
   }
@@ -73,5 +113,13 @@ const styles = StyleSheet.create({
   list: {
 
     backgroundColor: "#F5FCFF"
+  },
+  inputTextStyle: {
+    // padding: 0,
+    // paddingBottom: 10,
+    // paddingLeft: 5,
+    // marginTop: 7,
+    // fontSize: 17,
+    // marginLeft: 8,
   },
 })

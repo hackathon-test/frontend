@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
+import {ActivityIndicator, TouchableNativeFeedback,FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
 import Modal from 'react-native-modalbox';
 import BriefItem from './BriefItem'
+import {withNavigation} from "react-navigation";
 
-export default class Brief extends Component {
+class Brief extends Component {
   constructor(props) {
     super(props);
 
@@ -25,14 +26,17 @@ export default class Brief extends Component {
     this._gestureHandlers = {
       onStartShouldSetResponder: () => true,
       onMoveShouldSetResponder: ()=> true,
-      onResponderMove: ()=>{this.refs.modal.open()},
+      onResponderMove: ()=>{console.log(123)},
+      onResponderRelease: ()=>{this.refs.modal.open()},
     }
   }
   render(){
     return (
       <View style={{flex:1}}>
         <View style={{flex:8,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-          <Image source={require('../img/camera.png')}/>
+          <TouchableNativeFeedback onPress={()=>this.props.navigation.navigate('Comment',{title: '马拉松比赛讲座'})}>
+            <Image source={require('../img/camera.png')}/>
+          </TouchableNativeFeedback>
         </View>
         <View  {...this._gestureHandlers}
           style={{flex:1}}>
@@ -75,3 +79,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF"
   },
 })
+export default withNavigation(Brief);
