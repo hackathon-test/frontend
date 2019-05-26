@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Divider} from 'react-native-elements';
+import {getRandomColor} from '../utils/Common'
+import Global from '../utils/Global'
 
 export default class CommentItem extends Component {
 
@@ -12,15 +14,14 @@ export default class CommentItem extends Component {
     return (
       <View style={{margin: 5}}>
         <View style={styles.border}>
-          <View>
-            <Text>
+          <View style={styles.nameWrapper}>
+            <Text style={styles.name}>
               {this.props.item.name}
             </Text>
           </View>
-          <Divider style={{backgroundColor: 'blue', height: 1}}/>
-          <View style={{minHeight: 80}}>
-            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', display: 'flex'}}>
-              <Text>
+          <View>
+            <View style={{flex: 1, flexDirection: 'row', display: 'flex', overflow: 'visible'}}>
+              <Text numberOfLines={200} >
                 {this.props.item.comment}
               </Text>
             </View>
@@ -36,7 +37,19 @@ let styles = StyleSheet.create({
   border: {
     borderStyle: 'dotted',
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: "grey",
+    marginBottom: 10,
+  },
+  nameWrapper: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginBottom: 5,
+  },
+  name: {
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 5,
+    backgroundColor: 'rgba(124,184,221,0.4)',
+    fontSize: Global.fontSizeRegular,
   }
-
 })

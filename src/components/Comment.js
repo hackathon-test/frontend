@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   StatusBar,
 } from 'react-native';
-import {Button,  Badge} from 'react-native-elements';
+import {Button,  Badge, Divider} from 'react-native-elements';
 import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CommentItem from './CommentItem';
@@ -109,20 +109,22 @@ export default class Comment extends Component {
           />
 
           <View style={{ backgroundColor: 'red'}}>
-            <View style={{flexDirection: 'row' ,height:40, justifyContent:'space-between',alignItems: 'center',}}>
-              {/*<Text style={{color: 'white', fontSize: 18}}>昵称:</Text>*/}
+            <Divider height={1}></Divider>
+            <View style={{flexDirection: 'row' ,height:40, justifyContent:'space-between', alignItems: 'center',}}>
+              {/* <Text style={{color: 'white', fontSize: 18}}>昵称:</Text> */}
               <View>
                 <TextInput
                   onChangeText={() => this.setNickname()}
                   value={this.state.nickname}
-                  style={styles.commentInput} maxLength={6} placeholder={'输入评论昵称'}/>
+                  style={styles.commentInput} maxLength={6} placeholder={'在这里输入你的昵称'}/>
               </View>
               <Badge onPress={() => {}}
                      key={'send'} textStyle={styles.badgeTextStyle}
                      badgeStyle={styles.badgeStyle}
-                     value={'发送'}/>
+                     value={'发送'}
+              />
             </View>
-            <View style={{minHeight:40,backgroundColor: 'white'}}>
+            <View style={{minHeight:60, backgroundColor: 'white'}}>
               <TextInput
                 onChangeText={() => this.setMyComment()}
                 value={this.state.myComment}
@@ -152,11 +154,13 @@ const styles = StyleSheet.create({
   },
   badgeStyle: {
     height: 24,
-    borderRadius: 12,
+    // borderRadius: 12,
+    backgroundColor: 'white',
     marginRight: 5,
     marginBottom: 8,
     paddingLeft: 3,
     paddingRight: 3,
+    alignSelf: 'center',
   },
   badgeTextStyle: {
     fontSize: Global.fontSize - 4,
@@ -166,7 +170,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     color: 'white',
-    backgroundColor: 'gray',
     borderRadius: 18,
     height: 30,
     paddingTop: 0,
@@ -177,11 +180,10 @@ const styles = StyleSheet.create({
     lineHeight: 24
   },
   inputTextStyle: {
-    // padding: 0,
-    // paddingBottom: 10,
-    // paddingLeft: 5,
-    // marginTop: 7,
-    // fontSize: 17,
-    // marginLeft: 8,
+    paddingTop: 10,
+    paddingBottom: 0,
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 16,
   },
 })
