@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StatusBar, Dimensions, Text, Picker, TextInput, StyleSheet, View, PermissionsAndroid, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Global from '../utils/Global';
-import { getDate } from '../utils/Date';
+import { formatTime } from '../utils/Date';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {MAX_LECTURE_DURATION, SERVER} from '../utils/Constants';
 
@@ -11,8 +11,8 @@ export default class CreateLecture extends Component {
     constructor (props) {
       super(props);
       this.state = {
-        title: 'test',
-        speaker: 'test',
+        title: '',
+        speaker: '',
         beginTime: '',
         duration: '1',
         isDateTimePickerVisible: false,
@@ -20,9 +20,9 @@ export default class CreateLecture extends Component {
       }
     }
 
-    handleDateTimePicked = (date) => {
+    handleDateTimePicked = (time) => {
       this.setState({
-        beginTime: date.toString(),
+        beginTime: formatTime(time),
         isDateTimePickerVisible: false
       });
     }
@@ -46,7 +46,9 @@ export default class CreateLecture extends Component {
     }
 
     handleDurationChange = (value) => {
-      if (this._isValidDuration(value)) {
+      console.log(value);
+      console.log(value === '');
+      if (value === '' || this._isValidDuration(value)) {
         this.setState({
           duration: value,
           isDurationWarningVisible: false
@@ -60,10 +62,25 @@ export default class CreateLecture extends Component {
     }
 
     handleConfirm = () => {
+      // TODO 判断输入合法性
+      data = {
+        title: this.state.title,
+        speaker: this.state.speaker,
+        beginTime: this.state.beginTime,
+        duration: this.state.duration
+      }
       fetch(`${SERVER}/lectures`, {
         method: 'POST',
-        
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        body: JSON.stringify(data)
       })
+      .then(
+        // TODO
+      )
+      .catch(
+        err => console.log(err)
+      );
     }
 
     _isValidDuration(str) {
@@ -95,9 +112,9 @@ export default class CreateLecture extends Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.input}>
-                <Text style={styles.label}>持续天数</Text>
+                <Text style={styles.label}>讲座讨论开放天数</Text>
                 <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} />
-                {this.state.isDurationWarningVisible ? <Text style={styles.warning} >请输入 1~{MAX_LECTURE_DURATION} 间的数字！</Text> : null}
+                {this.state.isDurationWarningVisible ? <Text style={styles.warning} >{`请输入 1~${MAX_LECTURE_DURATION} 间的数字！`}</Text> : null}
               </View>
             </View>
             <TouchableOpacity style={styles.confirmButton} onPress={this.handleConfirm}>
@@ -136,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    flex: 0.4,
+    flex: 0.2,
     flexDirection: 'column',
     justifyContent: 'center',
     justifyContent: 'flex-end',
