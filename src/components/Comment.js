@@ -1,23 +1,38 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, TextInput,FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
-import { Button } from 'react-native-elements';
+import {
+  ActivityIndicator,
+  TextInput,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  StatusBar,
+
+} from 'react-native';
+import {Button,  Badge} from 'react-native-elements';
 import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CommentItem from './CommentItem';
 import Global from '../utils/Global'
+
 export default class Comment extends Component {
   static navigationOptions = ({navigation}) => {
-    const { params } = navigation.state;
+
+    const {params} = navigation.state;
     return {
 
-      title:  params ? params.title : '未命名的讲座',
+      title: params ? params.title : '未命名的讲座',
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
-      headerBackTitle:(<View></View>),
+      headerBackTitle: (<View></View>),
       headerLeft: (
         <View style={styles.backBtn}>
           <Button
-            style={{borderRadius:20}}
+            style={{borderRadius: 20}}
             type="clear"
             icon={<Icon name="arrow-left" size={20} color="white"/>}
             onPress={() => {
@@ -31,59 +46,80 @@ export default class Comment extends Component {
       )
     }
   };
+
   constructor(props) {
     super(props);
-
     this.state = {
-      comment: [],
-      nickname:'',
-      myComment:'',
+      comments: [],
+      nickname: '',
+      myComment: '',
       loaded: false,
     };
   }
+
   componentDidMount() {
     this.fetchData();
   }
+
   fetchData() {
-    let comment = [{id:123456,title:'关于环境治理问题'},{id:1256,title:'关于环境治理问题'}]
+    let comments = [{id: 123456,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
+    },{id: 1246,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
+    },{id: 12345,  name: '昵称test',   comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
+    }]
     this.setState({
-      comment: comment,
+      comments: this.state.comments.concat(comments)
     });
+    // fetch(REQUEST_URL)
+    //   .then(response => response.json())
+    //   .then(responseData => {
+    //     // 注意，这里使用了this关键字，为了保证this在调用时仍然指向当前组件，我们需要对其进行“绑定”操作
+    //     this.setState({
+    //       data: this.state.data.concat(responseData.movies),
+    //       loaded: true
+    //     });
+    //   });
   }
   setNickname(name) {
     this.setState({
       nickname: name,
     })
   }
+
   setMyComment(myComment) {
     this.setState({
       myComment: myComment,
     })
   }
-  render(){
+
+  render() {
     const item = {
-      name: '昵称test',
-      comment: '我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人我是好人没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答没有意义的回答'
+
     }
 
     return (
-      <View style={{flex:1,justifyContent:'flex-end'}}>
-        <View style ={{flex:1}}>
 
-          <View style={{flex:1,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-            <CommentItem item = {item}/>
 
-            <Image source={require('../img/camera.png')}/>
-          </View>
-        </View>
-        <View style ={{minHeight:80,backgroundColor:'red'}}>
-          <View style={{flexDirection:'row',backgroundColor:'#123456',flex:1,alignItems:'center',}}>
-            <Text style={{color:'white',fontSize:18}}>昵称</Text>
-            <TextInput onChangeText={()=>this.setNickname()} value={this.state.nickname} style={{
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}
+          behavior='padding' style={{ flex: 1, justifyContent:'flex-end'}}>
+          <FlatList
+            data={this.state.comments}
+            keyExtractor={item => item.id+''}
+            renderItem={(item, index) => <CommentItem item={item.item}/>}
+          />
+
+        <View style={{ backgroundColor: 'red'}}>
+          <View style={{flexDirection: 'row', backgroundColor: '#123456',height:40, alignItems: 'center',}}>
+            <Text style={{color: 'white', fontSize: 18}}>昵称</Text>
+            <View>
+            <TextInput
+              onChangeText={() => this.setNickname()}
+              value={this.state.nickname}
+              style={{
               textAlign: 'center',
               fontSize: 16,
               color: 'white',
-              backgroundColor:'gray',
+              backgroundColor: 'gray',
               borderRadius: 18,
               height: 30,
               paddingTop: 0,
@@ -93,19 +129,24 @@ export default class Comment extends Component {
               textAlignVertical: 'center',
               lineHeight: 24
             }} maxLength={6} placeholder={'输入评论昵称'}/>
+            </View>
+            <Badge onPress={() => {}}
+                   key={'send'} textStyle={styles.badgeTextStyle}
+                   badgeStyle={styles.badgeStyle}
+                   value={'发送'}/>
           </View>
-          <View style ={{flex:1,backgroundColor:'white'}}>
+          <View style={{minHeight:40,backgroundColor: 'white'}}>
             <TextInput
+              onChangeText={() => this.setMyComment()}
+              value={this.state.myComment}
               multiline={true}
               style={styles.inputTextStyle}
               placeholder='在此输入评论内容'
               // underlineColorAndroid={Global.blue}
-              onChangeText={()=>this.setMyComment}
-              value={this.state.myComment}
             />
           </View>
         </View>
-      </View>
+        </KeyboardAvoidingView>
     )
   }
 }
@@ -115,12 +156,24 @@ const styles = StyleSheet.create({
     width: width * 0.99,
     height: width * 1.5,
     padding: 10,
-    backgroundColor:'white'
+    backgroundColor: 'white'
 
   },
   list: {
 
     backgroundColor: "#F5FCFF"
+  },
+  badgeStyle: {
+    height: 24,
+    borderRadius: 12,
+    marginRight: 5,
+    marginBottom: 8,
+    paddingLeft: 3,
+    paddingRight: 3,
+  },
+  badgeTextStyle: {
+    fontSize: Global.fontSize - 4,
+    textAlignVertical: 'center',
   },
   inputTextStyle: {
     // padding: 0,
