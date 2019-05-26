@@ -153,7 +153,7 @@ export default class Comment extends Component {
                     console.log(json)
 
                     let nowComments = []
-                    nowComments.push(this.state.comments)
+                    nowComments = nowComments.concat(this.state.comments)
                     nowComments.push(json)
                     this.setState({
                       comments: nowComments
