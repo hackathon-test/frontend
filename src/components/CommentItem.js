@@ -17,8 +17,8 @@ export default class CommentItem extends Component {
               {this.props.item.nickName}
             </Text>
           </View>
-          <Divider style={{backgroundColor: 'blue', height: 5}}/>
-          <View style={{height: 80}}>
+          <Divider style={{backgroundColor: 'blue', height: 1}}/>
+          <View style={{minHeight: 80}}>
             <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', display: 'flex'}}>
               <Text>
                 {this.props.item.text}

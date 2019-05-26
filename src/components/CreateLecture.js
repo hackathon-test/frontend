@@ -11,37 +11,9 @@ import {Button} from 'react-native-elements';
 
 export default class CreateLecture extends Component {
 
-    // static navigationOptions = {
-    //   header: null
-    // };
-
-    // static navigationOptions = ({navigation}) => {
-    //   const {params} = navigation.state;
-    //   return {
-    //     title: params ? params.title : '未命名的讲座',
-    //     headerTitleStyle: Styles.title,
-    //     headerStyle: Styles.headerStyle,
-    //     headerBackTitle: (<View></View>),
-    //     headerLeft: (
-    //       <View style={{borderRadius: 20, marginLeft: 5}}>
-    //         <Button
-    //           type="clear"
-    //           icon={<Icon name="arrow-left" size={20} color="white" />}
-    //           onPress={() => {
-    //             navigation.navigate('Home')
-    //           }}
-    //         />
-    //       </View>
-    //     ),
-    //     headerRight: (<View></View>)
-    //   }
-    // };
-
     static navigationOptions = ({navigation}) => {
-
-      const {params} = navigation.state;
       return {
-        title: '创建讲座',
+        title: '创建一个讲座',
         headerTitleStyle: Styles.title,
         headerStyle: Styles.headerStyle,
         headerBackTitle: (<View></View>),
@@ -164,7 +136,6 @@ export default class CreateLecture extends Component {
     render () {
       return (
         <View style={styles.container}>
-          {/* <View style={styles.statusBar}></View> */}
           <View style={styles.main}>
             <View style={styles.title}>
               <Text style={styles.titleText}>请填写讲座相关信息</Text>
@@ -216,10 +187,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
   },
-  // statusBar: {
-  //   height: StatusBar.currentHeight,
-  //   backgroundColor: 'transparent',
-  // },
   main: {
     height: Dimensions.get('screen').height - StatusBar.currentHeight,
     flexDirection: 'column',

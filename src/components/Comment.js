@@ -17,38 +17,13 @@ import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CommentItem from './CommentItem';
 import Global from '../utils/Global'
+import Modal from 'react-native-modalbox';
+
 import {SERVER} from "../utils/Constants";
 
 export default class Comment extends Component {
-  static navigationOptions = ({navigation}) => {
-
-    const {params} = navigation.state;
-    return {
-      title: params ? params.title : '讲座',
-      headerTitleStyle: Styles.title,
-      headerStyle: Styles.headerStyle,
-      headerBackTitle: (<View></View>),
-      headerLeft: (
-        <View style={{marginLeft: 5}}>
-          <Button
-            type="clear"
-            icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
-            onPress={() => {
-              navigation.navigate('Home')
-            }}
-          />
-        </View>
-      ),
-      headerRight: (
-        <View style={{marginRight: 5}}>
-          <Button
-            type="clear"
-            icon={<Icon name="qrcode" size={25} color={Global.blue} />}
-            onPress={this.showQRCode}
-          />
-        </View>
-      )
-    }
+  static navigationOptions = {
+    header:null
   };
 
   constructor(props) {
@@ -107,46 +82,56 @@ export default class Comment extends Component {
   }
 
   showQRCode = () => {
-    // TODO 显示讲座二维码
-    console.log('Show QR Code!');
+    this.refs.modal.open()
   }
 
   render() {
+    const navigation = this.props.navigation
     return (
-
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={StatusBar.currentHeight + Global.titleHeight}
-        behavior='padding' style={{flex: 1, justifyContent: 'flex-end'}}>
-        <FlatList
-          data={this.state.comments}
-          keyExtractor={item => item.id + ''}
-          renderItem={(item, index) => <CommentItem item={item.item}/>}
-        />
-
-        <View style={{backgroundColor: 'red'}}>
-          <View style={{flexDirection: 'row', backgroundColor: '#123456', height: 40, alignItems: 'center',}}>
-            <Text style={{color: 'white', fontSize: 18}}>昵称</Text>
-            <View>
-            <TextInput
-              onChangeText={(text) => this.setNickname(text)}
-              value={this.state.nickname}
-              style={{
-              textAlign: 'center',
-              fontSize: 16,
-              color: 'white',
-              backgroundColor: 'gray',
-              borderRadius: 18,
-              height: 30,
-              paddingTop: 0,
-              paddingBottom: 0,
-              paddingLeft: 10,
-              paddingRight: 10,
-              textAlignVertical: 'center',
-              lineHeight: 24
-            }} maxLength={6} placeholder={'输入评论昵称'}/>
-            </View>
-            <Badge
+      <View style={{flex:1}}>
+        <View style={[Styles.headerStyle,{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}]}>
+          <View style={{marginLeft: 5}}>
+            <Button
+              type="clear"
+              icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
               onPress={() => {
+                navigation.navigate('Home')
+              }}
+            />
+          </View>
+          <Text style={Styles.title}>{navigation.getParam('title','未知的讲座')}</Text>
+          <View style={{marginRight: 5}}>
+            <Button
+              type="clear"
+              icon={<Icon name="qrcode" size={25} color={Global.blue} />}
+              onPress={this.showQRCode}
+            />
+          </View>
+        </View>
+        <Modal style={[styles.modal]} position={"center"} ref={"modal"} isDisabled={this.state.isDisabled}>
+          <Text>todo通过当前的id在这里添加二维码</Text>
+        </Modal>
+        <KeyboardAvoidingView
+          // keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}
+          behavior='padding' style={{ flex: 1, justifyContent:'flex-end'}}>
+
+          <FlatList
+            data={this.state.comments}
+            keyExtractor={item => item.id+''}
+            style={{padding:6}}
+            renderItem={(item, index) => <CommentItem item={item.item}/>}
+          />
+
+          <View style={{ backgroundColor: 'red'}}>
+            <View style={{flexDirection: 'row' ,height:40, justifyContent:'space-between',alignItems: 'center',}}>
+              {/*<Text style={{color: 'white', fontSize: 18}}>昵称:</Text>*/}
+              <View>
+                <TextInput
+                  onChangeText={(text) => this.setNickname(text)}
+                  value={this.state.nickname}
+                  style={styles.commentInput} maxLength={6} placeholder={'输入评论昵称'}/>
+              </View>
+              <Badge onPress={() => {
                 let commentData={
                   nickName: this.state.nickname,
                   text: this.state.myComment
@@ -178,37 +163,36 @@ export default class Comment extends Component {
                   err => console.log(err)
                 );
               }}
-              key={'send'} textStyle={styles.badgeTextStyle}
-              badgeStyle={styles.badgeStyle}
-              value={'发送'}/>
+                     key={'send'} textStyle={styles.badgeTextStyle}
+                     badgeStyle={styles.badgeStyle}
+                     value={'发送'}/>
+            </View>
+            <View style={{minHeight:40,backgroundColor: 'white'}}>
+              <TextInput
+                onChangeText={(text) => this.setMyComment(text)}
+                value={this.state.myComment}
+                multiline={true}
+                style={styles.inputTextStyle}
+                placeholder='在此输入评论内容'
+              />
+            </View>
           </View>
-          <View style={{minHeight: 40, backgroundColor: 'white'}}>
-            {/*TODO editing 可编辑*/}
-            <TextInput
-              onChangeText={(text) => this.setMyComment(text)}
-              value={this.state.myComment}
-              multiline={true}
-              style={styles.inputTextStyle}
-              placeholder='在此输入评论内容'
-              // underlineColorAndroid={Global.blue}
-            />
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
+
     )
   }
 }
 const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   modal: {
-    width: width * 0.99,
-    height: width * 1.5,
     padding: 10,
-    backgroundColor: 'white'
-
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: width*0.8,
+    width: width*0.8,
   },
   list: {
-
     backgroundColor: "#F5FCFF"
   },
   badgeStyle: {
@@ -222,6 +206,20 @@ const styles = StyleSheet.create({
   badgeTextStyle: {
     fontSize: Global.fontSize - 4,
     textAlignVertical: 'center',
+  },
+  commentInput:{
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'white',
+    backgroundColor: 'gray',
+    borderRadius: 18,
+    height: 30,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 10,
+    paddingRight: 10,
+    textAlignVertical: 'center',
+    lineHeight: 24
   },
   inputTextStyle: {
     // padding: 0,

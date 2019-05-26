@@ -33,12 +33,22 @@ class Brief extends Component {
     this._openHandlers = {
       onStartShouldSetResponder: () => true,
       onMoveShouldSetResponder: ()=> true,
-      onResponderRelease: ()=>{this.refs.modal.open()},
+      onResponderRelease: ()=>{
+        this.refs.modal.open()
+        this.setState({
+          open:true
+        })
+      },
     }
     this._closeHandlers = {
       onStartShouldSetResponder: () => true,
       onMoveShouldSetResponder: ()=> true,
+      onResponderGrant: () => {
+        console.log("22222")},
       onResponderRelease: ()=>{this.refs.modal.close()
+        this,this.setState({
+          open:false
+        })
       console.log("21345678")},
     }
   }
@@ -78,9 +88,9 @@ class Brief extends Component {
           swipeToClose={false}
         >
           <View style={{flex:1,backgroundColor:'#FEFEFE',alignItems:'center'}}>
-            <View {...this._closeHandlers}  style={{width:'100%',paddingBottom:10,height:50,alignItems:'center',backgroundColor:'#FEFEFE'}}>
+            <View {...this._closeHandlers}  style={{width:'100%',marginTop:-20,paddingTop:30,paddingBottom:10,height:80,alignItems:'center'}}>
               <View style={{height:5,backgroundColor:'#BEBEBE',width:50}}/>
-              <Text style={{fontSize:18,marginTop:5,color:Global.blue}}>我的讲座</Text>
+              <Text style={{height:50,textAlignVertical:'center',textAlign:'center', width:width,fontSize:18,marginTop:-10,paddingTop:0,color:Global.blue}}>我的讲座</Text>
             </View>
 
             <View>
@@ -105,13 +115,13 @@ const styles = StyleSheet.create({
   modal: {
     borderTopRightRadius:10,
     borderTopLeftRadius:10,
-    width: width * 0.99,
-    height: height ,
-    marginTop:-40,
+    width: width,
+    height:height,
+    paddingBottom:40,
     justifyContent:'center',
-    padding: 10,
+    paddingRight:10,
+    paddingLeft:10,
     backgroundColor:'white',
-    elevation: 5,
   },
   list: {
     backgroundColor: "white",
