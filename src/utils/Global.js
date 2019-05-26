@@ -1,6 +1,7 @@
 let global = {
   blue: "#7CB8DD",
   fontSize: 20,
+  fontSizeRegular: 18,
   fontSizeSmall: 15,
   searchTextHeight: 40,
   searchColor: '#EEEEEE',
