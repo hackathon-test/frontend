@@ -18,7 +18,7 @@ class HomePanel extends Component {
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
       headerLeft: (
-        <View style={styles.backBtn}/>
+        <View />
       ),
       headerRight: (
         <View style={styles.addBtn}>
@@ -27,21 +27,10 @@ class HomePanel extends Component {
             type="clear"
             icon={<Icon name="plus" size={20} color={Global.blue}/>}
             onPress={() => {
-              navigation.navigate('CreateLecture')
+              navigation.navigate('CreateLecture');
             }}
           />
         </View>
-        // <MyView>
-        //   <View style={styles.backBtn} onPress={() => {
-        //     navigation.navigate('Scanner')
-        //   }}>
-        //     <Icon
-        //       name="plus"
-        //       size={20}
-        //       color="white"
-        //     />
-        //   </View>
-        // </MyView>
       )
     }
   };
@@ -81,6 +70,7 @@ const KitStack = createStackNavigator(
     }
   }
 );
+
 KitStack.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
