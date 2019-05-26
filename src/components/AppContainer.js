@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {createAppContainer, createBottomTabNavigator} from 'react-navigation';
-import HomePanel from './medicine/HomePanel'
+import HomePanel from './HomePanel'
 
 const TabNavigator = createBottomTabNavigator({
     Home: HomePanel,

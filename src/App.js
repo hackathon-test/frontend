@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import AppContainer from './components/AppContainer';
+import {createAppContainer} from "react-navigation";
+import HomePanel from "./components/HomePanel";
 
 export default class App extends Component {
     render() {
         return (
-            <AppContainer/>
+          <HomePanel/>
         );
     }
 }

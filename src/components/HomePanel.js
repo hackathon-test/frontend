@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, StyleSheet, View, PermissionsAndroid} from 'react-native';
-import {createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
-import Styles from "../../utils/Styles";
+import {createAppContainer, createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
+import Styles from "../utils/Styles";
 
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -49,6 +49,7 @@ class HomePanel extends Component {
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
           <View style={{height: '100%', width: '100%'}}>
+            {/*<Brief/>*/}
           </View>
         </View>
     );
@@ -79,7 +80,8 @@ KitStack.navigationOptions = ({navigation}) => {
   };
 };
 
-export default KitStack;
+export default createAppContainer(KitStack);
+
 
 var styles = StyleSheet.create({
 
