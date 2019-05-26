@@ -6,10 +6,11 @@ import {get_all, remove, save} from "./index";
 const SCHEMA_LECTURE_HISTORY = 'LectureHistory';
 
 /**
- * 保存单个历史记录
+ * 保存单个历史记录，以保存时间为时间戳
  * @param lecture_history 要保存的单个历史记录
  */
-export function save_lecture_history(lecture_history) {
+export function save_lecture_history(lecture_history: Object) {
+  lecture_history.timestamp = new Date()
   save(SCHEMA_LECTURE_HISTORY, lecture_history)
 }
 
@@ -18,7 +19,7 @@ export function save_lecture_history(lecture_history) {
  * @private
  * @param lecture_history_id
  */
-export function delete_lecture_history(lecture_history_id) {
+export function delete_lecture_history(lecture_history_id: String) {
   remove(SCHEMA_LECTURE_HISTORY, 'id', lecture_history_id)
 }
 
@@ -27,5 +28,5 @@ export function delete_lecture_history(lecture_history_id) {
  * @return {Array}
  */
 export function get_all_lecture_histories() {
-  return get_all(SCHEMA_LECTURE_HISTORY)
+  return get_all(SCHEMA_LECTURE_HISTORY, 'timestamp', true)
 }

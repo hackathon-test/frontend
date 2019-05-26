@@ -6,9 +6,10 @@ const LectureHistorySchema = {
   properties: {
     id: 'string',
     title: 'string',
+    timestamp: 'date',
   }
 };
 
-const realm = new Realm({schema: [LectureHistorySchema], schemaVersion: 1})
+const realm = new Realm({schema: [LectureHistorySchema], schemaVersion: 2})
 
 export default realm;

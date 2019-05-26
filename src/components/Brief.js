@@ -3,23 +3,25 @@ import {ActivityIndicator, TouchableNativeFeedback,FlatList, StyleSheet, View, I
 import Modal from 'react-native-modalbox';
 import BriefItem from './BriefItem'
 import {withNavigation} from "react-navigation";
+import {get_all_lecture_histories} from "../realm/lecture_history";
 
 class Brief extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      history: [{id:123456,name:'关于环境治理问题'}],
+      history: [],
       loaded: false,
     };
   }
+
   componentDidMount() {
     this.fetchData();
   }
+
   fetchData() {
-    let history = [{id:123456,title:'关于环境治理问题'},{id:1256,title:'关于环境治理问题'}]
     this.setState({
-      history: history,
+      history: get_all_lecture_histories(),
     });
   }
   componentWillMount(){

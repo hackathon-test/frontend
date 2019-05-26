@@ -38,13 +38,22 @@ export function remove(schema, col, value) {
 }
 
 /**
- * 读取某个 schema 中的全部数据
+ * 读取某个 schema 中的全部数据，可以对某列 col 按照升降序排序
  * @param schema
+ * @param sort_col
+ * @param descending
  * @return {Realm.Results<any>}
  */
-export function get_all(schema) {
-  let all_results = realm.objects(schema);
-  console.log(`[SUCCESS] schema=${schema} get all.`)
+export function get_all(schema, sort_col = undefined, descending = false) {
+  let all_results;
+
+  if (sort_col) {
+    all_results = realm.objects(schema).sorted(sort_col, descending);
+    console.log(`[SUCCESS] schema=${schema} get all, and sorted by ${sort_col}, descending=${descending}.`)
+  } else {
+    all_results = realm.objects(schema);
+    console.log(`[SUCCESS] schema=${schema} get all.`)
+  }
   return __trans_dict_to_array(all_results)
 }
 
