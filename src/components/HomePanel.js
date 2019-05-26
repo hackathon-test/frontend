@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {StatusBar, StyleSheet, View, PermissionsAndroid} from 'react-native';
 import {createAppContainer, createStackNavigator} from 'react-navigation'; // Version can be specified in package.json
 import Styles from "../utils/Styles";
-
+import Brief from "./Brief"
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import Comment from './Comment'
 class HomePanel extends Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -49,7 +49,7 @@ class HomePanel extends Component {
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
           <View style={{height: '100%', width: '100%'}}>
-            {/*<Brief/>*/}
+            <Brief/>
           </View>
         </View>
     );
@@ -61,6 +61,9 @@ const KitStack = createStackNavigator(
     Home: {
       screen: HomePanel,
     },
+    Comment:{
+      screen: Comment
+    }
   },
   {
     initialRouteName: 'Home',
