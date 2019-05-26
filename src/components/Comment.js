@@ -23,7 +23,7 @@ export default class Comment extends Component {
 
     const {params} = navigation.state;
     return {
-      title: params ? params.title : '未命名的讲座',
+      title: params ? params.title : '讲座',
       headerTitleStyle: Styles.title,
       headerStyle: Styles.headerStyle,
       headerBackTitle: (<View></View>),
@@ -31,7 +31,7 @@ export default class Comment extends Component {
         <View style={{marginLeft: 5}}>
           <Button
             type="clear"
-            icon={<Icon name="arrow-left" size={20} color="white" />}
+            icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
             onPress={() => {
               navigation.navigate('Home')
             }}
@@ -42,7 +42,7 @@ export default class Comment extends Component {
         <View style={{marginRight: 5}}>
           <Button
             type="clear"
-            icon={<Icon name="qrcode" size={25} color="white" />}
+            icon={<Icon name="qrcode" size={25} color={Global.blue} />}
             onPress={this.showQRCode}
           /> 
         </View>
