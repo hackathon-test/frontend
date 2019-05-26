@@ -58,7 +58,7 @@ export default class CreateLecture extends Component {
     }
 
     checkDuration = (e) => {
-      value = e.nativeEvent.text
+      let value = e.nativeEvent.text
       this.setState({
         isDurationWarningVisible: ! (value === '' || this._isValidDuration(value))
       });
@@ -76,7 +76,7 @@ export default class CreateLecture extends Component {
         })
         return;
       }
-      data = {
+      let data = {
         title: this.state.title,
         speaker: this.state.speaker,
         beginTime: this.state.beginTime,
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
   title: {
     flex: 0.2,
     flexDirection: 'column',
-    justifyContent: 'center',
     justifyContent: 'flex-end',
   },
   titleText: {
