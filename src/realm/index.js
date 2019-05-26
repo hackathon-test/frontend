@@ -38,6 +38,23 @@ export function remove(schema, col, value) {
 }
 
 /**
+ * 删除某个 schema 的全部数据
+ * @param schema
+ * @private
+ * @danger 全删跑路，仅限此文件内部测试使用
+ */
+function __remove_all(schema) {
+  realm.write(() => {
+    try {
+      realm.deleteAll()
+      console.log(`[SUCCESS] schema=${schema} delete all.`)
+    } catch (e) {
+      console.log(`[FAILURE] schema=${schema} deleted all failed.`)
+    }
+  });
+}
+
+/**
  * 读取某个 schema 中的全部数据，可以对某列 col 按照升降序排序
  * @param schema
  * @param sort_col
