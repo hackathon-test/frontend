@@ -49,7 +49,7 @@ class Brief extends Component {
         this,this.setState({
           open:false
         })
-      console.log("21345678")},
+        console.log("21345678")},
     }
   }
   renderInvariant(){
@@ -62,26 +62,31 @@ class Brief extends Component {
       <View style={{flex:1}}>
         <View style={{height:2,backgroundColor:'#ECECEC',width:width}}/>
         <View style={{flex:10,justifyContent:'center',backgroundColor:'#F9F9F9',alignItems:'center'}}>
-            <Button
-              type="clear"
-              onPress={()=>this.props.navigation.navigate('ScanQR')}
-              icon={
-                <Icon
-                  name="qrcode-scan"
-                  size={120}
-                  color={Global.blue}
-                />
-              }
-            />
+          <Button
+            type="clear"
+            onPress={()=>this.props.navigation.navigate('ScanQR')}
+            icon={
+              <Icon
+                name="qrcode-scan"
+                size={120}
+                color={Global.blue}
+              />
+            }
+          />
         </View>
         <Image source={require('../img/shadow.png')} style={{width:width}} />
 
-        <View {...this._openHandlers} style={{flex:1,backgroundColor:'#E4E5E6'}}>
-          <View style={styles.bottomBtn}>
-            <View style={{height:5,backgroundColor:'#BEBEBE',width:50}}/>
-            <Text style={{fontSize:18,marginTop:5,color:Global.blue}}>我的讲座</Text>
+
+          <View {...this._openHandlers} style={{flex: 1, backgroundColor: '#E4E5E6'}}>
+            {this.state.open ?
+              <View/>
+              :
+              <View style={styles.bottomBtn}>
+                <View style={{height: 5, backgroundColor: '#BEBEBE', width: 50}}/>
+                <Text style={{fontSize: 18, marginTop: 5, color: Global.blue}}>我的讲座</Text>
+              </View>
+            }
           </View>
-        </View>
 
         <Modal
           style={styles.modal}  position={"bottom"} ref={"modal"}
@@ -116,8 +121,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius:10,
     borderTopLeftRadius:10,
     width: width,
-    height:height,
-    paddingBottom:40,
+    height:height*0.75,
+    paddingBottom:70,
     justifyContent:'center',
     paddingRight:10,
     paddingLeft:10,
