@@ -20,6 +20,7 @@ import Global from '../utils/Global'
 import Modal from 'react-native-modalbox';
 
 import {SERVER} from "../utils/Constants";
+import {formatTime} from "../utils/Date";
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -86,6 +87,14 @@ export default class Comment extends Component {
   }
 
   render() {
+    const lecture ={
+      id: 'da3b5a4b-0ccd-47b3-83d2-c248e4a11c37',
+      title: '美国早期国家构建中的"中立化国家"概念美国早期国家构建中的"中立化国家"概念',
+      speaker: '陈振宇',
+      start: '2019-05-26T11:25:01.909Z',
+      validityDays: 5,
+      expireDate: '2019-05-28T11:25',
+    }
     const navigation = this.props.navigation
     return (
       <View style={{flex:1}}>
@@ -99,7 +108,8 @@ export default class Comment extends Component {
               }}
             />
           </View>
-          <Text style={Styles.title}>{navigation.getParam('title','未知的讲座')}</Text>
+          <Button style={Styles.title} onPress={()=> {this.refs.modal2.open()}} type={'clear'}
+                  title={navigation.getParam('title','未知的讲座')}/>
           <View style={{marginRight: 5}}>
             <Button
               type="clear"
@@ -110,6 +120,17 @@ export default class Comment extends Component {
         </View>
         <Modal style={[styles.modal]} position={"center"} ref={"modal"} isDisabled={this.state.isDisabled}>
           <Text>todo通过当前的id在这里添加二维码</Text>
+        </Modal>
+        <Modal style={[styles.modal2]} position={"center"} ref={"modal2"} isDisabled={this.state.isDisabled}>
+          <View style={styles.container}>
+            <View style={{padding:10,marginTop:15}}>
+              <Text style={{fontSize:18,lineHeight:25}}>{lecture.title}</Text>
+            </View>
+            <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
+              <Text style={{flex:1,textAlign:'center'}}>{formatTime(lecture.start)}</Text>
+              <Text style={{flex:1,textAlign:'center'}}>主讲人：{lecture.speaker}</Text>
+            </View>
+          </View>
         </Modal>
         <KeyboardAvoidingView
           // keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}
@@ -187,11 +208,23 @@ export default class Comment extends Component {
 }
 const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent:'center',
+    backgroundColor: 'white',
+  },
   modal: {
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     height: width*0.8,
+    width: width*0.8,
+  },
+  modal2: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: width*0.5,
     width: width*0.8,
   },
   list: {
