@@ -119,7 +119,17 @@ export default class Comment extends Component {
       err => console.log(err)
     );
   }
+  loadmore(){
+    //todo fjj gcm
+    console.log("load more ")
+    var comments= [{nickName:'134',text:'12345678',id:'12'}]
+    this.setState({
+      comments: this.state.comments.concat(comments)
+    })
 
+  }
+  _scroll;
+  _flatList;
   render() {
     const lecture ={
       id: 'da3b5a4b-0ccd-47b3-83d2-c248e4a11c37',
@@ -169,14 +179,19 @@ export default class Comment extends Component {
         <KeyboardAvoidingView
           // keyboardVerticalOffset={StatusBar.currentHeight+Global.titleHeight}
           behavior='padding' style={{ flex: 1, justifyContent:'flex-end'}}>
-
+          <ScrollView  ref={(scroll)=>this._scroll = scroll}>
           <FlatList
+            ref={(flatList)=>this._flatList = flatList}
             data={this.state.comments}
             keyExtractor={item => item.id+''}
             style={{padding:6}}
             renderItem={(item, index) => <CommentItem item={item.item}/>}
           />
-
+          <Button onPress={()=>{this.loadmore()
+            this._flatList.scrollToEnd()
+            this._scroll.scrollToEnd()}}
+                  containerStyle={{flex:1,justifyContent:'center',alignItems:'center'}}  type={'clear'} title={'加载更多'}/>
+          </ScrollView>
           <View style={{ backgroundColor: 'transparent'}}>
             <Divider height={0.2}></Divider>
             <View style={{flexDirection: 'row', height:40, justifyContent:'space-between', alignItems: 'center',}}>

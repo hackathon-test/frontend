@@ -14,7 +14,7 @@ class BriefItem extends Component {
   }
   checkDetail(id){
     //todo get all info
-    this.props.navigation.navigate('Comment')
+    this.props.navigation.navigate('Comment',{lectureId:1})
   }
   render() {
     //右边button属性
@@ -23,7 +23,7 @@ class BriefItem extends Component {
       <Swipeout right={rightBtns} style={{backgroundColor:'white'}}>
         <TouchableNativeFeedback onPress={() => this.checkDetail(this.props.history.id)}>
         <View style={styles.container} >
-          <View >
+          <View>
             <Text style={{fontSize:18}}>{this.props.history.title}</Text>
           </View>
           <View style={{flex:1,flexDirection:'row',fontSize:10}}>
