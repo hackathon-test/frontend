@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View, 
+  ScrollView
 } from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Styles from '../utils/Styles'
@@ -18,7 +19,7 @@ import Modal from 'react-native-modalbox';
 
 import {SERVER} from "../utils/Constants";
 import {formatTime} from "../utils/Date";
-import {show_toast} from '../utils/MyToast';
+import Toast from "react-native-root-toast";
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -106,7 +107,26 @@ export default class Comment extends Component {
     this.refs.modal.open()
   }
 
+  _isContentValid () {
+    return this.state.nickname !== '' && this.state.myComment !== '';
+  }
+
   handleSend = () => {
+    if (!this._isContentValid()) {
+      Toast.show('昵称和内容都不能为空', {
+        duration: Toast.durations.LONG,
+        position: 0,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        backgroundColor: '#C1E0F3',
+        textColor: 'black',
+        textStyle: {
+          fontSize: 14
+        }
+      })
+      return;
+    }
     let commentData={
       nickName: this.state.nickname,
       text: this.state.myComment
@@ -143,8 +163,7 @@ export default class Comment extends Component {
     var comments= [{nickName:'134',text:'12345678',id:'12'}]
     this.setState({
       comments: this.state.comments.concat(comments)
-    })
-
+    });
   }
   _scroll;
   _flatList;

@@ -159,7 +159,6 @@ export default class CreateLecture extends Component {
                   <Text style={styles.beginTimeText}>{this.state.beginTime}</Text>
                 </TouchableOpacity>
               </View>
-
               <TouchableOpacity style={styles.confirmButton} onPress={this.handleConfirm}>
               <View style={styles.confirmContainer}>
                 <Text style={styles.confirmText}>确认创建</Text>

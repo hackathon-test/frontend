@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Global from '../utils/Global';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {RNCamera} from 'react-native-camera';
 import {show_toast} from "../utils/MyToast";
+
 
 export default class ScanQRCode extends Component {
 
@@ -45,9 +48,6 @@ export default class ScanQRCode extends Component {
   }
 
   handleBarCodeRead = (e) => {
-    // TODO 加状态位防抖动
-    console.log(e.data + '!!!!');
-
     const data = e.data;
     if (/^\d+$/.test(data)) {
       this.props.navigation.navigate('Comment', {lectureId: e.data});
@@ -58,10 +58,9 @@ export default class ScanQRCode extends Component {
 
   render() {
     const {cameraWidth, cameraHeight, focusAreaLeft, focusAreaTop, focusAreaWidth, focusAreaHeight} = this.state;
-
     return (
       <View style={styles.container}>
-      {/* <StatusBar translucent={true}/> */}
+      <StatusBar translucent={true}/>
       <RNCamera
         ref={ref => {this.camera = ref;}}
         style={styles.preview}
@@ -73,10 +72,17 @@ export default class ScanQRCode extends Component {
         ratio={this.cameraRatio}
       >
         <View style={styles.backArea}>
-          <Image style={styles.backIcon} source={require('../img/back.png')} />
+          <Button
+              type="clear"
+              icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
+              onPress={() => {
+                navigation.goBack();
+              }}
+          />
+          {/* <Image style={styles.backIcon} source={require('../img/back.png')} />
           <TouchableOpacity style={styles.backTextWrapper} onPress={() => this.props.navigation.goBack()} >
             <Text style={styles.backText}>返回</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={[styles.mask, {left: 0, top: 0, width: cameraWidth, height: focusAreaTop}]} />
         <View style={[styles.mask, {left: 0, top: focusAreaTop, width: focusAreaLeft, height: focusAreaHeight}]} />
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
   backArea: {
     position: 'absolute',
     left: 10,
-    top: 50,
+    top: StatusBar.currentHeight + 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -145,7 +151,6 @@ const styles = StyleSheet.create({
   recognizeSwitch: {
     position: 'absolute',
     backgroundColor: 'transparent',
-
   },
   focusArea: {
     position: 'absolute',

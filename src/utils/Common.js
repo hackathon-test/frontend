@@ -1,4 +1,4 @@
-const colors = ['rgba(255,209,154,0.1)', 'rgba(176,222,255,0.1)', 'rgba(210,243,224,0.1)', 'rgba(254,185,200,0.1)'];
+const colors = ['rgba(255,209,154,0.2)', 'rgba(176,222,255,0.2)', 'rgba(210,243,224,0.2)', 'rgba(254,185,200,0.2)'];
 
 // const getRandomInt = (max) => {
 //   return Math.floor(Math.random() * Math.floor(max));
