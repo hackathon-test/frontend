@@ -5,6 +5,10 @@ import {RNCamera} from 'react-native-camera';
 
 export default class ScanQRCode extends Component {
 
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,7 +53,7 @@ export default class ScanQRCode extends Component {
 
     return (
       <View style={styles.container}>
-      <StatusBar translucent={true}/>
+      {/* <StatusBar translucent={true}/> */}
       <RNCamera
         ref={ref => {this.camera = ref;}}
         style={styles.preview}

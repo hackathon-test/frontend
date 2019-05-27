@@ -137,9 +137,9 @@ export default class CreateLecture extends Component {
       return (
         <View style={styles.container}>
           <View style={styles.main}>
-            <View style={styles.title}>
+            {/* <View style={styles.title}>
               <Text style={styles.titleText}>请填写讲座相关信息</Text>
-            </View>
+            </View> */}
             <View style={styles.form}>
               <View style={styles.input}>
                 <Text style={styles.label}>讲座主题</Text>
