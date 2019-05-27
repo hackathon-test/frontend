@@ -22,6 +22,7 @@ import {formatTime} from "../utils/Date";
 import {show_toast} from '../utils/MyToast';
 import {save_lecture_history} from "../realm/lecture_history";
 import MyQRCode from './MyQRCode';
+import {show_toast} from "../utils/MyToast";
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -56,14 +57,16 @@ export default class Comment extends Component {
 
   fetchData() {
     let url = `${SERVER}/lectures/${this.state.lectureId}`;
-    console.log(url)
+    show_toast(url);
+    console.log(url);
     fetch(url, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
       },
     }).then(res => {
-      console.log(res)
+      console.log(res);
+      show_toast(res);
       res.json().then(async json => {
         // const resp = JSON.parse(json)
         console.log(json)
