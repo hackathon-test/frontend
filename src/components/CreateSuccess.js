@@ -10,15 +10,17 @@ export default class CreateSuccess extends Component {
   }
 
   render() {
+    const lectureInfo = this.props.navigation.getParam('lecture');
+
     return (
       <View style={styles.container}>
         <View style={styles.lectureContainer}>
           <View style={styles.lectureTitle}>
-            <Text style={{fontSize: 18}}>{this.props.lecture.title}</Text>
+            <Text style={{fontSize: 18}}>{lectureInfo.title}</Text>
           </View>
           <View style={styles.lectureDetail}>
-            <Text style={{flex: 1, backgroundColor: 'pink'}}>{formatTime(this.props.lecture.start)}</Text>
-            <Text style={{flex: 1, backgroundColor: 'gray'}}>主讲人：{this.props.lecture.speaker}</Text>
+            <Text style={{flex: 1, backgroundColor: 'pink'}}>{formatTime(lectureInfo.start)}</Text>
+            <Text style={{flex: 1, backgroundColor: 'gray'}}>主讲人：{lectureInfo.speaker}</Text>
           </View>
         </View>
 
@@ -35,7 +37,7 @@ export default class CreateSuccess extends Component {
         </View>
 
         <View style={styles.qrcodeContainer}>
-          <QRCode value={this.props.lecture.id}
+          <QRCode value={lectureInfo.id}
                   size={200}/>
         </View>
       </View>
