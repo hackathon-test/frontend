@@ -21,7 +21,7 @@ export default class CreateLecture extends Component {
           <View style={{marginLeft: 5, borderRadius: 20}}>
             <Button
               type="clear"
-              icon={<Icon name="arrow-left" size={20} color={Global.bl} />}
+              icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
               onPress={() => {
                 navigation.goBack();
               }}
@@ -150,16 +150,17 @@ export default class CreateLecture extends Component {
                 <TextInput style={styles.textInput} value={this.state.speaker} onChangeText={this.handleSpeakerChange}></TextInput>
               </View>
               <View style={styles.input}>
+                <Text style={styles.label}>讲座讨论开放天数</Text>
+                <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} onEndEditing={this.checkDuration} />
+                {this.state.isDurationWarningVisible ? <Text style={styles.warning} >{`请输入 1~${MAX_LECTURE_DURATION} 间的数字！`}</Text> : null}
+              </View>
+              <View style={styles.input}>
                 <Text style={styles.label}>开始时间</Text>
                 <TouchableOpacity style={styles.beginTimeButton} activeOpacity={0.8} onPress={this.showDateTimePicker}>
                   <Text style={styles.beginTimeText}>{this.state.beginTime}</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.input}>
-                <Text style={styles.label}>讲座讨论开放天数</Text>
-                <TextInput style={styles.textInput} value={this.state.duration} keyboardType='number-pad' onChangeText={this.handleDurationChange} onEndEditing={this.checkDuration} />
-                {this.state.isDurationWarningVisible ? <Text style={styles.warning} >{`请输入 1~${MAX_LECTURE_DURATION} 间的数字！`}</Text> : null}
-              </View>
+
               <TouchableOpacity style={styles.confirmButton} onPress={this.handleConfirm}>
               <View style={styles.confirmContainer}>
                 <Text style={styles.confirmText}>确认创建</Text>
