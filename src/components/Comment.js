@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   KeyboardAvoidingView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -19,6 +20,8 @@ import Modal from 'react-native-modalbox';
 import {SERVER} from "../utils/Constants";
 import {formatTime} from "../utils/Date";
 import {show_toast} from '../utils/MyToast';
+import {save_lecture_history} from "../realm/lecture_history";
+import MyQRCode from './MyQRCode';
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -30,6 +33,9 @@ export default class Comment extends Component {
     this.state = {
       lectureId: 0,
       lectureTitle: '未知的讲座',
+      lectureSpeaker: '',
+      lectureStart: '',
+      lectureExpire: '',
       commentEditable: false,
       comments: [],
       commentsLastTime: '',
@@ -65,8 +71,11 @@ export default class Comment extends Component {
 
         await this.setState({
           // lecture: id, title, speaker, start, validityDays, expire
-          lectureId: json['lecture']['id'],
+          // lectureId: json['lecture']['id'],
           lectureTitle: json['lecture']['title'],
+          lectureSpeaker: json['lecture']['speaker'],
+          lectureStart: json['lecture']['start'],
+          lectureExpire: json['lecture']['expire'],
           commentEditable: json['editable'],
           comments: json['comments'],
           commentsLastTime: json['lastCommentTime'],
@@ -83,6 +92,14 @@ export default class Comment extends Component {
           }
           msg && show_toast(msg)
         }
+
+        // 保存到个人历史记录中
+        save_lecture_history({
+          id: this.state.lectureId,
+          title: this.state.lectureTitle,
+          speaker: this.state.lectureSpeaker,
+          expire: this.state.lectureExpire,
+        })
 
       })
     }).catch(
@@ -149,14 +166,6 @@ export default class Comment extends Component {
   _scroll;
   _flatList;
   render() {
-    const lecture ={
-      id: 'da3b5a4b-0ccd-47b3-83d2-c248e4a11c37',
-      title: '美国早期国家构建中的"中立化国家"概念美国早期国家构建中的"中立化国家"概念',
-      speaker: '陈振宇',
-      start: '2019-05-26T11:25:01.909Z',
-      validityDays: 5,
-      expireDate: '2019-05-28T11:25',
-    }
     const navigation = this.props.navigation
     return (
       <View style={{flex:1}}>
@@ -181,16 +190,16 @@ export default class Comment extends Component {
           </View>
         </View>
         <Modal style={[styles.modal]} position={"center"} ref={"modal"} isDisabled={this.state.isDisabled}>
-          <Text>todo通过当前的id在这里添加二维码</Text>
+          <MyQRCode lectureId={this.state.lectureId} />
         </Modal>
         <Modal style={[styles.modal2]} position={"center"} ref={"modal2"} isDisabled={this.state.isDisabled}>
           <View style={styles.container}>
             <View style={{padding:10,marginTop:15}}>
-              <Text style={{fontSize:18,lineHeight:25}}>{lecture.title}</Text>
+              <Text style={{fontSize:18,lineHeight:25}}>{this.state.lectureTitle}</Text>
             </View>
             <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
-              <Text style={{flex:1,textAlign:'center'}}>{formatTime(lecture.start)}</Text>
-              <Text style={{flex:1,textAlign:'center'}}>主讲人：{lecture.speaker}</Text>
+              <Text style={{flex:1,textAlign:'center'}}>{formatTime(this.state.lectureStart)}</Text>
+              <Text style={{flex:1,textAlign:'center'}}>主讲人：{this.state.lectureSpeaker}</Text>
             </View>
           </View>
         </Modal>

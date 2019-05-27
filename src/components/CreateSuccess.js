@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import {formatTime} from '../utils/Date';
 import Styles from "../utils/Styles";
 import Global from "../utils/Global";
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import MyQRCode from './MyQRCode';
 
 export default class CreateSuccess extends Component {
   static navigationOptions = ({navigation}) => {
@@ -43,9 +43,9 @@ export default class CreateSuccess extends Component {
 
         <View style={styles.container}>
           <View style={{padding:10,marginTop:30}}>
-            <Text style={{fontSize:18,lineHeight:25}}>{lectureInfo.title}</Text>
+            <Text style={{fontSize:18,lineHeight:25,width:'100%',textAlign:'center',alignItems:'center'}}>{lectureInfo.title}</Text>
           </View>
-          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
+          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:10}}>
             <Text style={{flex:1,textAlign:'center'}}>{formatTime(lectureInfo.start)}</Text>
             <Text style={{flex:1,textAlign:'center'}}>主讲人：{lectureInfo.speaker}</Text>
           </View>
@@ -63,8 +63,7 @@ export default class CreateSuccess extends Component {
         </View>
 
         <View style={styles.qrcodeContainer}>
-          <QRCode value={lectureInfo.id}
-                  size={200}/>
+          <MyQRCode lectureId={lectureInfo.id} />
         </View>
       </View>
     );

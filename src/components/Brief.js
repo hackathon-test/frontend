@@ -1,34 +1,42 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, TouchableNativeFeedback,FlatList, StyleSheet, View, Image,Text,Dimensions} from 'react-native';
+import {ActivityIndicator, Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import Modal from 'react-native-modalbox';
-import { Button } from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import BriefItem from './BriefItem'
 import {withNavigation} from "react-navigation";
-import {get_all_lecture_histories} from "../realm/lecture_history";
+import {delete_lecture_history, get_all_lecture_histories} from "../realm/lecture_history";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Global from '../utils/Global'
+
 const {width, height} = Dimensions.get('window');
 class Brief extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      history: [],
+      histories: [],
       loaded: true,
       open:false
     };
   }
 
-  componentDidMount() {
-    this.fetchData();
+  deleteLectureByItem(deletedId) {
+    let nowHistories = []
+    for (let i = 0; i < this.state.histories.length; i++) {
+      const curHistory = this.state.histories[i]
+      if (curHistory.id !== deletedId) {
+        nowHistories.push(curHistory)
+      }
+
+      this.setState({
+        histories: nowHistories
+      })
+    }
+
+    // 删除本地缓存
+    delete_lecture_history(deletedId)
   }
 
-  fetchData() {
-    this.setState({
-      history: get_all_lecture_histories(),
-      loaded: true
-    });
-  }
   componentWillMount(){
     this._openHandlers = {
       onStartShouldSetResponder: () => true,
@@ -36,7 +44,15 @@ class Brief extends Component {
       onResponderRelease: ()=>{
         this.refs.modal.open()
         this.setState({
-          open:true
+          open:true,
+          loaded: true,
+        });
+
+        // 重新获取我的讲座
+        let cur_all_lectures = get_all_lecture_histories()
+        this.setState({
+          histories: cur_all_lectures,
+          loaded: false,
         })
       },
     }
@@ -100,14 +116,16 @@ class Brief extends Component {
 
             <View>
               {this.state.loaded ?
+                <ActivityIndicator size="large" color="#0000ff"/>
+                :
                 <FlatList
                   // ItemSeparatorComponent={() => this.renderSeparator()}
-                  data={this.state.history}
-                  renderItem={(item, index) => <BriefItem history={item.item}/>}
+                  data={this.state.histories}
+                  renderItem={(item, index) => <BriefItem history={item.item} delete={(id) => this.deleteLectureByItem(id)}/>}
                   style={styles.list}
-                  ItemSeparatorComponent={()=>this.renderInvariant()}
+                  ItemSeparatorComponent={() => this.renderInvariant()}
                   keyExtractor={item => item.id + ""}
-                /> : <ActivityIndicator size="large" color="#0000ff"/>
+                />
               }
             </View>
           </View>

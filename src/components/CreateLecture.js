@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {StatusBar, Dimensions, Text, Picker, TextInput, StyleSheet, View, PermissionsAndroid, TouchableOpacity} from 'react-native';
+import {Dimensions, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Global from '../utils/Global';
-import { formatTime } from '../utils/Date';
+import {formatTime} from '../utils/Date';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {MAX_LECTURE_DURATION, SERVER} from '../utils/Constants';
 import Styles from '../utils/Styles';
 import {Button} from 'react-native-elements';
+import {save_lecture_history} from "../realm/lecture_history";
 
 
 export default class CreateLecture extends Component {
@@ -118,6 +119,14 @@ export default class CreateLecture extends Component {
       })
       .then(res => {
         res.json().then(json => {
+          // 保存到个人历史记录中
+          save_lecture_history({
+            id: json['id'],
+            title: json['title'],
+            speaker: json['speaker'],
+            expire: json['expire'],
+          });
+
           this.props.navigation.navigate('CreateSuccess', {lecture: json})
         })
 
@@ -205,7 +214,7 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     width: Dimensions.get('window').width * 0.8,
-    marginTop: 50,
+    marginTop: 30,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
@@ -230,7 +239,7 @@ const styles = StyleSheet.create({
     // borderBottomRadius: 5,
   },
   beginTimeButton: {
-    height: 50,
+    height: 35,
     borderBottomWidth: 1,
     borderBottomColor: Global.blue,
     flexDirection: 'column',

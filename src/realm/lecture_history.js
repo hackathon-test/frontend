@@ -10,6 +10,8 @@ const SCHEMA_LECTURE_HISTORY = 'LectureHistory';
  * @param lecture_history 要保存的单个历史记录
  */
 export function save_lecture_history(lecture_history: Object) {
+  // 保证 id 为字符串
+  lecture_history.id = String(lecture_history.id);
   save(SCHEMA_LECTURE_HISTORY, lecture_history)
 }
 
@@ -27,5 +29,5 @@ export function delete_lecture_history(lecture_history_id: String) {
  * @return {Array}
  */
 export function get_all_lecture_histories() {
-  return get_all(SCHEMA_LECTURE_HISTORY, 'expireDate', true)
+  return get_all(SCHEMA_LECTURE_HISTORY, 'expire', true)
 }

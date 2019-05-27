@@ -14,6 +14,7 @@ export function save(schema, object, mode = Realm.UpdateMode.Modified) {
       console.log(`[SUCCESS] schema=${schema}: object=${object} saved.`)
     } catch (e) {
       console.log(`[FAILURE] schema=${schema}: object=${object} save failed.`)
+      console.log(e)
     }
   });
 }
