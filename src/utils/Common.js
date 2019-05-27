@@ -1,9 +1,15 @@
-const colors = ['rgba(255,209,154,0.8)', 'rgba(176,222,255,0.8)', 'rgba(210,243,224,0.8)', 'rgba(254,185,200,0.8)'];
+const colors = ['rgba(255,209,154,0.1)', 'rgba(176,222,255,0.1)', 'rgba(210,243,224,0.1)', 'rgba(254,185,200,0.1)'];
 
-const getRandomInt = (max) => {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+// const getRandomInt = (max) => {
+//   return Math.floor(Math.random() * Math.floor(max));
+// }
 
-export const getRandomColor = () => {
-    return colors[getRandomInt(colors.length)];
+export const getColorByString = (str) => {
+  let hash = 0;
+  for (i = 0; i < str.length; i++) {
+    hash += str.charCodeAt(i)
+  }
+  hash %= colors.length;
+  
+  return colors[hash];
 }
