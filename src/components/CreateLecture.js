@@ -109,8 +109,6 @@ export default class CreateLecture extends Component {
         start: this.state.beginTime,
         validityDays: this.state.duration
       }
-      show_toast(data);
-      show_toast(`${SERVER}/lectures`);
       fetch(`${SERVER}/lectures`, {
         method: 'POST',
         headers: {
