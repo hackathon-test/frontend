@@ -230,14 +230,17 @@ export default class Comment extends Component {
           <MyQRCode lectureId={this.state.lectureId} />
         </Modal>
         <Modal style={[styles.modal2]} position={"center"} ref={"modal2"} isDisabled={this.state.isDisabled}>
-          <View style={styles.container}>
-            <View style={{padding:10,marginTop:15}}>
-              <Text style={{fontSize:18,lineHeight:25}}>{this.state.lectureTitle}</Text>
+          <View style={{flex:1,width:width*0.78}}>
+            <View style={{padding:10,marginTop:15,alignItems:'center'}}>
+              <Text style={{fontSize:20,lineHeight:25,maxHeight:50}}>{this.state.lectureTitle}</Text>
             </View>
-            <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
-              <Text style={{flex:1,textAlign:'center'}}>{formatTime(this.state.lectureStart)}</Text>
+            <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:18,marginTop:5,padding:20}}>
               <Text style={{flex:1,textAlign:'center'}}>主讲人：{this.state.lectureSpeaker}</Text>
             </View>
+            <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:18,marginTop:5,padding:20}}>
+              <Text style={{flex:1,textAlign:'center'}}>开始日期:{formatTime(this.state.lectureStart)}</Text>
+            </View>
+
           </View>
         </Modal>
         <KeyboardAvoidingView
