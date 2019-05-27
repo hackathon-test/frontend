@@ -3,12 +3,12 @@ import {
   Dimensions,
   FlatList,
   KeyboardAvoidingView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Styles from '../utils/Styles'
@@ -123,7 +123,15 @@ export default class Comment extends Component {
     this.refs.modal.open()
   }
 
+  _isContentValid () {
+    return this.state.nickname !== '' && this.state.myComment !== '';
+  }
+
   handleSend = () => {
+    if (!this._isContentValid()) {
+      show_toast('昵称和内容都不能为空');
+      return;
+    }
     let commentData={
       nickName: this.state.nickname,
       text: this.state.myComment
@@ -160,8 +168,7 @@ export default class Comment extends Component {
     var comments= [{nickName:'134',text:'12345678',id:'12'}]
     this.setState({
       comments: this.state.comments.concat(comments)
-    })
-
+    });
   }
   _scroll;
   _flatList;
