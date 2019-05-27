@@ -57,7 +57,6 @@ export default class Comment extends Component {
 
   fetchData() {
     let url = `${SERVER}/lectures/${this.state.lectureId}`;
-    show_toast(url);
     console.log(url);
     fetch(url, {
       method: 'GET',
