@@ -40,29 +40,16 @@ export default class CreateSuccess extends Component {
 
     return (
       <View style={styles.container}>
-
-        <View style={styles.container}>
-          <View style={{padding:10,marginTop:30}}>
-            <Text style={{fontSize:18,lineHeight:25,width:'100%',textAlign:'center',alignItems:'center'}}>{lectureInfo.title}</Text>
+          <View style={{padding:10,marginTop:15,alignItems:'center'}}>
+            <Text style={{fontSize:20,minHeight:50,lineHeight:25,maxHeight:50}}>{lectureInfo.title}</Text>
           </View>
-          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:10}}>
-            <Text style={{flex:1,textAlign:'center'}}>{formatTime(lectureInfo.start)}</Text>
+          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:18,marginTop:5,padding:10}}>
             <Text style={{flex:1,textAlign:'center'}}>主讲人：{lectureInfo.speaker}</Text>
           </View>
-        </View>
-        <View style={styles.successContainer}>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image
-              source={require("../img/success.png")}
-              style={styles.successImg}
-            />
-            <Text>
-              创建成功！
-            </Text>
+          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:18,marginTop:5,padding:10}}>
+            <Text style={{flex:1,textAlign:'center'}}>开始日期:{formatTime(lectureInfo.start)}</Text>
           </View>
-        </View>
-
-        <View style={styles.qrcodeContainer}>
+        <View style={[{flex:3},styles.qrcodeContainer]}>
           <MyQRCode lectureId={lectureInfo.id} />
         </View>
       </View>
@@ -74,7 +61,7 @@ export default class CreateSuccess extends Component {
 let styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent:'center',
+    // justifyContent:'center',
     backgroundColor: 'white',
   },
 

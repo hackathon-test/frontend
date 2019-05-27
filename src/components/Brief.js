@@ -61,12 +61,19 @@ class Brief extends Component {
       onMoveShouldSetResponder: ()=> true,
       onResponderGrant: () => {
         console.log("22222")},
-      onResponderRelease: ()=>{this.refs.modal.close()
-        this,this.setState({
+      onResponderRelease: ()=>{
+        this.refs.modal.close()
+        this.setState({
           open:false
         })
         console.log("21345678")},
     }
+  }
+  onClose=()=>{
+    console.log(1234)
+   this.setState({
+      open:false
+    })
   }
   renderInvariant(){
     return(
@@ -106,7 +113,8 @@ class Brief extends Component {
 
         <Modal
           style={styles.modal}  position={"bottom"} ref={"modal"}
-          swipeToClose={false}
+          swipeToClose={false} backdropPressToClose={false}
+          onClosed={this.onClose}
         >
           <View style={{flex:1,backgroundColor:'#FEFEFE',alignItems:'center'}}>
             <View {...this._closeHandlers}  style={{width:'100%',marginTop:-20,paddingTop:30,paddingBottom:10,height:80,alignItems:'center'}}>
