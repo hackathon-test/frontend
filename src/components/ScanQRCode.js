@@ -46,6 +46,8 @@ export default class ScanQRCode extends Component {
 
   handleBarCodeRead = (e) => {
     // TODO 加状态位防抖动
+    console.log(e.data + '!!!!');
+
     const data = e.data;
     if (/^\d+$/.test(data)) {
       this.props.navigation.navigate('Comment', {lectureId: e.data});

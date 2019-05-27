@@ -42,7 +42,7 @@ export default class CreateLecture extends Component {
         beginTime: formatTime(new Date()),
         duration: '1',
         isDateTimePickerVisible: false,
-        isDurationWarningVisible: false
+        isDurationWarningVisible: false,
       }
     }
 

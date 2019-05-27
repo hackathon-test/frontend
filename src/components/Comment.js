@@ -11,6 +11,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   StatusBar,
+  TouchableOpacity
 } from 'react-native';
 import {Button,  Badge, Divider} from 'react-native-elements';
 import Styles from '../utils/Styles'
@@ -42,7 +43,8 @@ export default class Comment extends Component {
 
   async componentDidMount() {
     await this.setState({
-      lectureId: this.props.navigation.getParam('lectureId')
+      // TODO not 0
+      lectureId: this.props.navigation.getParam('lectureId', 1)
     });
     this.fetchData();
   }
@@ -84,6 +86,38 @@ export default class Comment extends Component {
 
   showQRCode = () => {
     this.refs.modal.open()
+  }
+
+  handleSend = () => {
+    let commentData={
+      nickName: this.state.nickname,
+      text: this.state.myComment
+    }
+    let url = `${SERVER}/comments?lectureId=${this.state.lectureId}`
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(commentData)
+    }).then(res => {
+      console.log(res);
+      // TODO 判断返回信息，可能会有错误，屏蔽词
+      res.json().then(json => {
+        // const resp = JSON.parse(json)
+        console.log(json)
+        let nowComments = []
+        nowComments = nowComments.concat(this.state.comments)
+        nowComments.push(json)
+        this.setState({
+          comments: nowComments,
+          myComment: ''
+        })
+      })
+    }).catch(
+      err => console.log(err)
+    );
   }
 
   render() {
@@ -143,60 +177,32 @@ export default class Comment extends Component {
             renderItem={(item, index) => <CommentItem item={item.item}/>}
           />
 
-          <View style={{ backgroundColor: 'red'}}>
-            <Divider height={1}></Divider>
-            <View style={{flexDirection: 'row' ,height:40, justifyContent:'space-between', alignItems: 'center',}}>
+          <View style={{ backgroundColor: 'transparent'}}>
+            <Divider height={0.2}></Divider>
+            <View style={{flexDirection: 'row', height:40, justifyContent:'space-between', alignItems: 'center',}}>
               {/* <Text style={{color: 'white', fontSize: 18}}>昵称:</Text> */}
               <View>
                 <TextInput
                   onChangeText={(text) => this.setNickname(text)}
                   value={this.state.nickname}
-                  style={styles.commentInput} maxLength={6} placeholder={'在这里输入你的昵称'}/>
+                  style={styles.nicknameInput} 
+                  maxLength={6}
+                  minLength={1}
+                  placeholder={'在这里输入你的昵称'}/>
               </View>
-              <Badge onPress={() => {
-                let commentData={
-                  nickName: this.state.nickname,
-                  text: this.state.myComment
-                }
-
-                let url = `${SERVER}/comments?lectureId=${this.state.lectureId}`
-                fetch(url, {
-                  method: 'POST',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-
-                  body: JSON.stringify(commentData)
-                }).then(res => {
-                  console.log(res)
-                  res.json().then(json => {
-                    // const resp = JSON.parse(json)
-                    console.log(json)
-
-                    let nowComments = []
-                    nowComments = nowComments.concat(this.state.comments)
-                    nowComments.push(json)
-                    this.setState({
-                      comments: nowComments
-                    })
-                  })
-                }).catch(
-                  err => console.log(err)
-                );
-              }}
-                     key={'send'} textStyle={styles.badgeTextStyle}
-                     badgeStyle={styles.badgeStyle}
-                     value={'发送'}
-              />
+              <TouchableOpacity style={styles.sendButton} onPress={this.handleSend}>
+                <Text style={styles.sendText}>发表</Text>
+              </TouchableOpacity>
             </View>
-            <View style={{minHeight:60, backgroundColor: 'white'}}>
+            <View style={{minHeight:40, backgroundColor: 'white'}}>
               <TextInput
                 onChangeText={(text) => this.setMyComment(text)}
                 value={this.state.myComment}
                 multiline={true}
                 style={styles.inputTextStyle}
-                placeholder='在此输入评论内容'
+                placeholder='请尽量让自己的发言能帮助到别人'
+                returnKeyType='发表'
+                // TODO max number of lines
               />
             </View>
           </View>
@@ -244,24 +250,34 @@ const styles = StyleSheet.create({
     fontSize: Global.fontSize - 4,
     textAlignVertical: 'center',
   },
-  commentInput:{
-    textAlign: 'center',
+  nicknameInput: {
+    textAlign: 'left',
     fontSize: 16,
-    color: 'white',
+    color: 'black',
     borderRadius: 18,
     height: 30,
     paddingTop: 0,
     paddingBottom: 0,
-    paddingLeft: 10,
     paddingRight: 10,
     textAlignVertical: 'center',
-    lineHeight: 24
+    marginHorizontal: 10,
   },
   inputTextStyle: {
-    paddingTop: 10,
-    paddingBottom: 0,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 16,
+    borderRadius: 10,
+    backgroundColor: '#f5f5f5',
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
+  sendButton: {
+    marginRight: 10,
+  },
+  sendText: {
+    fontSize: 16,
+    color: Global.blue,
+  }
 })
