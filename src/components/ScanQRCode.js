@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Global from '../utils/Global';
 import {RNCamera} from 'react-native-camera';
-import Toast from 'react-native-root-toast';
+import {show_toast} from "../utils/MyToast";
 
 export default class ScanQRCode extends Component {
 
@@ -52,19 +52,7 @@ export default class ScanQRCode extends Component {
     if (/^\d+$/.test(data)) {
       this.props.navigation.navigate('Comment', {lectureId: e.data});
     } else {
-      console.log('is not number')
-      Toast.show('不支持的二维码，请正确使用哦～', {
-        duration: Toast.durations.LONG,
-        position: -120,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-        backgroundColor: '#C1E0F3',
-        textColor: 'black',
-        textStyle: {
-          fontSize: 14
-        }
-      });
+      show_toast('不支持的二维码，请正确使用哦～')
     }
   };
 
