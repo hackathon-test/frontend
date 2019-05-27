@@ -36,24 +36,18 @@ export default class CreateSuccess extends Component {
   }
 
   render() {
-    const lecture ={
-      id: 'da3b5a4b-0ccd-47b3-83d2-c248e4a11c37',
-      title: '美国早期国家构建中的"中立化国家"概念美国早期国家构建中的"中立化国家"概念',
-      speaker: '陈振宇',
-      start: '2019-05-26T11:25:01.909Z',
-      validityDays: 5,
-      expireDate: '2019-05-28T11:25',
-    }
+    const lectureInfo = this.props.navigation.getParam('lecture');
+
     return (
       <View style={styles.container}>
 
         <View style={styles.container}>
           <View style={{padding:10,marginTop:30}}>
-            <Text style={{fontSize:18,lineHeight:25}}>{lecture.title}</Text>
+            <Text style={{fontSize:18,lineHeight:25}}>{lectureInfo.title}</Text>
           </View>
           <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
-            <Text style={{flex:1,textAlign:'center'}}>{formatTime(lecture.start)}</Text>
-            <Text style={{flex:1,textAlign:'center'}}>主讲人：{lecture.speaker}</Text>
+            <Text style={{flex:1,textAlign:'center'}}>{formatTime(lectureInfo.start)}</Text>
+            <Text style={{flex:1,textAlign:'center'}}>主讲人：{lectureInfo.speaker}</Text>
           </View>
         </View>
         <View style={styles.successContainer}>
@@ -69,7 +63,7 @@ export default class CreateSuccess extends Component {
         </View>
 
         <View style={styles.qrcodeContainer}>
-          <QRCode value={lecture.id}
+          <QRCode value={lectureInfo.id}
                   size={200}/>
         </View>
       </View>

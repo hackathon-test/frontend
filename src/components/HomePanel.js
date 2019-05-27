@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Comment from './Comment';
 import CreateLecture from './CreateLecture';
 import ScanQRPanel from './ScanQRCode';
-import {lecture_history_test} from "../realm/lecture_history_test";
 import CreateSuccess from './CreateSuccess';
 
 class HomePanel extends Component {
@@ -43,13 +42,6 @@ class HomePanel extends Component {
 
   render() {
 
-    const lecture ={
-      id: 'da3b5a4b-0ccd-47b3-83d2-c248e4a11c37',
-      title: '美国早期国家构建中的"中立化国家"概念美国早期国家构建中的"中立化国家"概念',
-      professor: '陈振宇',
-      timestamp: '2019-05-26T11:25:01.909Z'
-    }
-
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
           <View style={{height: '100%', width: '100%'}}>
@@ -71,6 +63,9 @@ const KitStack = createStackNavigator(
     },
     CreateLecture: {
       screen: CreateLecture
+    },
+    CreateSuccess: {
+      screen: CreateSuccess
     },
     ScanQR: {
       screen: ScanQRPanel

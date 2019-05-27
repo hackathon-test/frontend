@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Global from '../utils/Global';
 import {RNCamera} from 'react-native-camera';
+import {show_toast} from "../utils/MyToast";
 
 export default class ScanQRCode extends Component {
 
@@ -32,7 +33,7 @@ export default class ScanQRCode extends Component {
   }
 
   setCameraFocusArea = async (e) => {
-    const { width, height } = e.nativeEvent.layout;
+    const {width, height} = e.nativeEvent.layout;
     this.setState({
       cameraWidth: width,
       cameraHeight: height,
@@ -46,8 +47,14 @@ export default class ScanQRCode extends Component {
   handleBarCodeRead = (e) => {
     // TODO 加状态位防抖动
     console.log(e.data + '!!!!');
-    this.props.navigation.navigate('Comment', {lectureId: e.data});
-  }
+
+    const data = e.data;
+    if (/^\d+$/.test(data)) {
+      this.props.navigation.navigate('Comment', {lectureId: e.data});
+    } else {
+      show_toast('不支持的二维码，请正确使用哦～')
+    }
+  };
 
   render() {
     const {cameraWidth, cameraHeight, focusAreaLeft, focusAreaTop, focusAreaWidth, focusAreaHeight} = this.state;

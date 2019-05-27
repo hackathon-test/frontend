@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
 import {
-  ActivityIndicator,
-  TextInput,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-  Image,
-  Text,
   Dimensions,
+  FlatList,
   KeyboardAvoidingView,
-  StatusBar,
-  TouchableOpacity
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import {Button,  Badge, Divider} from 'react-native-elements';
+import {Button, Divider} from 'react-native-elements';
 import Styles from '../utils/Styles'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CommentItem from './CommentItem';
@@ -22,6 +18,7 @@ import Modal from 'react-native-modalbox';
 
 import {SERVER} from "../utils/Constants";
 import {formatTime} from "../utils/Date";
+import {show_toast} from '../utils/MyToast';
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -32,7 +29,10 @@ export default class Comment extends Component {
     super(props);
     this.state = {
       lectureId: 0,
+      lectureTitle: '未知的讲座',
+      commentEditable: false,
       comments: [],
+      commentsLastTime: '',
       nickname: '',
       myComment: '',
       loaded: false,
@@ -59,13 +59,31 @@ export default class Comment extends Component {
       },
     }).then(res => {
       console.log(res)
-      res.json().then(json => {
+      res.json().then(async json => {
         // const resp = JSON.parse(json)
         console.log(json)
 
-        this.setState({
-          comments: json['comments']
+        await this.setState({
+          // lecture: id, title, speaker, start, validityDays, expire
+          lectureId: json['lecture']['id'],
+          lectureTitle: json['lecture']['title'],
+          commentEditable: json['editable'],
+          comments: json['comments'],
+          commentsLastTime: json['lastCommentTime'],
         });
+
+        // 如果已经超出评论时限
+        if (!this.state.commentEditable) {
+          let msg;
+          let nowTime = formatTime(new Date())
+          if (nowTime < json['lecture']['start']) {
+            msg = '该次讲座未开始，现不能评论哦～'
+          } else if (nowTime > json['lecture']['expire']) {
+            msg = '该次讲座已到期，现不能评论哦～'
+          }
+          msg && show_toast(msg)
+        }
+
       })
     }).catch(
       err => console.log(err)
@@ -153,7 +171,7 @@ export default class Comment extends Component {
             />
           </View>
           <Button style={Styles.title} onPress={()=> {this.refs.modal2.open()}} type={'clear'}
-                  title={navigation.getParam('title','未知的讲座')}/>
+                  title={this.state.lectureTitle}/>
           <View style={{marginRight: 5}}>
             <Button
               type="clear"
@@ -198,6 +216,7 @@ export default class Comment extends Component {
               {/* <Text style={{color: 'white', fontSize: 18}}>昵称:</Text> */}
               <View>
                 <TextInput
+                  editable={this.state.commentEditable}
                   onChangeText={(text) => this.setNickname(text)}
                   value={this.state.nickname}
                   style={styles.nicknameInput} 
@@ -205,18 +224,19 @@ export default class Comment extends Component {
                   minLength={1}
                   placeholder={'在这里输入你的昵称'}/>
               </View>
-              <TouchableOpacity style={styles.sendButton} onPress={this.handleSend}>
+              <TouchableOpacity style={[styles.sendButton, {disabled: this.state.commentEditable}]} onPress={this.handleSend}>
                 <Text style={styles.sendText}>发表</Text>
               </TouchableOpacity>
             </View>
             <View style={{minHeight:40, backgroundColor: 'white'}}>
               <TextInput
+                editable={this.state.commentEditable}
                 onChangeText={(text) => this.setMyComment(text)}
                 value={this.state.myComment}
                 multiline={true}
                 style={styles.inputTextStyle}
                 placeholder='请尽量让自己的发言能帮助到别人'
-                returnKeyType='发表'
+                returnKeyType='send'
                 // TODO max number of lines
               />
             </View>

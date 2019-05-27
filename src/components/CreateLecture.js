@@ -118,8 +118,7 @@ export default class CreateLecture extends Component {
       })
       .then(res => {
         res.json().then(json => {
-          console.log(json)
-          // TODO 传给CreateSuccess
+          this.props.navigation.navigate('CreateSuccess', {lecture: json})
         })
 
       })
