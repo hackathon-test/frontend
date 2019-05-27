@@ -2,9 +2,35 @@ import React, {Component} from 'react';
 import {Dimensions, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import QRCode from 'react-native-qrcode';
 import {formatTime} from '../utils/Date';
+import Styles from "../utils/Styles";
+import Global from "../utils/Global";
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 export default class CreateSuccess extends Component {
-
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: '创建成功',
+      headerTitleStyle: Styles.title,
+      headerStyle: Styles.headerStyle,
+      headerBackTitle: (<View></View>),
+      headerLeft: (
+        <View style={{marginLeft: 5, borderRadius: 20}}>
+          <Button
+            type="clear"
+            icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          />
+        </View>
+      ),
+      headerRight: (
+        <View></View>
+      )
+    }
+  };
   constructor(props) {
     super(props)
   }
@@ -14,16 +40,16 @@ export default class CreateSuccess extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.lectureContainer}>
-          <View style={styles.lectureTitle}>
-            <Text style={{fontSize: 18}}>{lectureInfo.title}</Text>
+
+        <View style={styles.container}>
+          <View style={{padding:10,marginTop:30}}>
+            <Text style={{fontSize:18,lineHeight:25}}>{lectureInfo.title}</Text>
           </View>
-          <View style={styles.lectureDetail}>
-            <Text style={{flex: 1, backgroundColor: 'pink'}}>{formatTime(lectureInfo.start)}</Text>
-            <Text style={{flex: 1, backgroundColor: 'gray'}}>主讲人：{lectureInfo.speaker}</Text>
+          <View style={{flex:1,flexDirection:'row',textAlign:'center',alignItems:'center',fontSize:16,marginTop:5,padding:20}}>
+            <Text style={{flex:1,textAlign:'center'}}>{formatTime(lectureInfo.start)}</Text>
+            <Text style={{flex:1,textAlign:'center'}}>主讲人：{lectureInfo.speaker}</Text>
           </View>
         </View>
-
         <View style={styles.successContainer}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image
@@ -49,9 +75,7 @@ export default class CreateSuccess extends Component {
 let styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    height: Dimensions.get('screen').height - StatusBar.currentHeight,
-    justifyContent: 'flex-start',
+    justifyContent:'center',
     backgroundColor: 'white',
   },
 
@@ -74,7 +98,6 @@ let styles = StyleSheet.create({
 
   successContainer: {
     height: 150,
-    backgroundColor: 'blue'
   },
 
   successImg: {
@@ -86,6 +109,5 @@ let styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'yellow',
   },
 })

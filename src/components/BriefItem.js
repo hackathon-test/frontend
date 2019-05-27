@@ -18,10 +18,11 @@ class BriefItem extends Component {
   }
   render() {
     //右边button属性
-    const rightBtns = [{text: '删除',backgroundColor: "gray",color:'red',borderRadius:10,borderWidth:1,borderColor:'black',marginLeft:7}];
+    const rightBtns = [{text: '删除',backgroundColor: "#F0F0F0",color:'red',borderRadius:10,borderWidth:1,borderColor:'black',marginLeft:7}];
     return (
       <Swipeout right={rightBtns} style={{backgroundColor:'white'}}>
-        <View style={styles.container} onPress={() => this.checkDetail(this.props.history.id)}>
+        <TouchableNativeFeedback onPress={() => this.checkDetail(this.props.history.id)}>
+        <View style={styles.container} >
           <View >
             <Text style={{fontSize:18}}>{this.props.history.title}</Text>
           </View>
@@ -30,6 +31,7 @@ class BriefItem extends Component {
             <Text style={{flex:1}}>主讲人：{this.props.history.professor}</Text>
           </View>
         </View>
+        </TouchableNativeFeedback>
       </Swipeout>
     )
   };
