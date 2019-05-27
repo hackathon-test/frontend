@@ -1,7 +1,7 @@
 import {get_all_lecture_histories, save_lecture_history} from "./lecture_history";
 
 export function lecture_history_test() {
-  store_basic_data()
+  // store_basic_data()
 
   const all_lecture_histories = get_all_lecture_histories()
   console.log(all_lecture_histories.length)
