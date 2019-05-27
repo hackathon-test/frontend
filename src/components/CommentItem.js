@@ -13,7 +13,7 @@ export default class CommentItem extends Component {
     super(props);
     this.state = {
       isLike: false,
-      likeCount: 0
+      likeCount: this.props.item.likes
     };
   }
 
@@ -39,7 +39,7 @@ export default class CommentItem extends Component {
               icon={<Icon name="thumbs-up" size={20} color={this.state.isLike ? Global.blue : '#cccccc'} />}
               onPress={this.handleLike}
             />
-            <Text style={styles.likeCount}>123</Text>
+            <Text style={styles.likeCount}>{this.state.likeCount}</Text>
           </View>
           <View style={{flex: 1, flexDirection: 'row', display: 'flex', overflow: 'visible', borderRadius: 5}}>
             <Text style={styles.commentText}>
@@ -81,7 +81,10 @@ let styles = StyleSheet.create({
     flex: 1,
   },
   likeCount: {
-    flex: 1,
+    flex: 0,
+    // flexGrow: 1,
+    alignItems: 'center',
+    justifyContent:'center',
     fontSize: Global.fontSizeSmall,
     color: Global.blue,
     marginRight: 10,

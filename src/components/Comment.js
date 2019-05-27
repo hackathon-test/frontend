@@ -49,8 +49,7 @@ export default class Comment extends Component {
 
   async componentDidMount() {
     await this.setState({
-      // TODO not 0
-      lectureId: this.props.navigation.getParam('lectureId', 1)
+      lectureId: this.props.navigation.getParam('lectureId')
     });
     this.fetchData();
   }
@@ -129,7 +128,18 @@ export default class Comment extends Component {
 
   handleSend = () => {
     if (!this._isContentValid()) {
-      show_toast('昵称和内容都不能为空');
+      Toast.show('昵称和内容都不能为空哦', {
+        duration: Toast.durations.LONG,
+        position: 0,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        backgroundColor: '#C1E0F3',
+        textColor: 'black',
+        textStyle: {
+          fontSize: 14
+        }
+      })
       return;
     }
     let commentData={
@@ -165,10 +175,26 @@ export default class Comment extends Component {
   loadmore(){
     //todo fjj gcm
     console.log("load more ")
-    var comments= [{nickName:'134',text:'12345678',id:'12'}]
-    this.setState({
-      comments: this.state.comments.concat(comments)
-    });
+    let url = `${SERVER}/comments?lectureId=${this.state.lectureId}&lastCommentTime=${this.state.commentsLastTime}`
+    fetch(url, {
+      method: 'GET'
+    }).then(res => {
+      console.log(res);
+      // TODO 判断返回信息，可能会有错误，屏蔽词
+      res.json().then(json => {
+        // const resp = JSON.parse(json)
+        console.log(json)
+        let newComments = json;
+        if (newComments.length !== 0) {
+          this.setState({
+            comments: this.state.comments.concat(newComments),
+            commentsLastTime: newComments[newComments.length-1].createdAt
+          })
+        }
+      })
+    }).catch(
+      err => console.log(err)
+    );
   }
   _scroll;
   _flatList;

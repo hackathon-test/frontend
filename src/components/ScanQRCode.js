@@ -76,7 +76,7 @@ export default class ScanQRCode extends Component {
               type="clear"
               icon={<Icon name="arrow-left" size={20} color={Global.blue} />}
               onPress={() => {
-                navigation.goBack();
+                this.props.navigation.goBack();
               }}
           />
           {/* <Image style={styles.backIcon} source={require('../img/back.png')} />
