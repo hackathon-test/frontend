@@ -10,7 +10,6 @@ const SCHEMA_LECTURE_HISTORY = 'LectureHistory';
  * @param lecture_history 要保存的单个历史记录
  */
 export function save_lecture_history(lecture_history: Object) {
-  lecture_history.timestamp = new Date()
   save(SCHEMA_LECTURE_HISTORY, lecture_history)
 }
 
@@ -28,5 +27,5 @@ export function delete_lecture_history(lecture_history_id: String) {
  * @return {Array}
  */
 export function get_all_lecture_histories() {
-  return get_all(SCHEMA_LECTURE_HISTORY, 'timestamp', true)
+  return get_all(SCHEMA_LECTURE_HISTORY, 'expireDate', true)
 }
