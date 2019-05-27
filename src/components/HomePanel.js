@@ -64,9 +64,7 @@ const KitStack = createStackNavigator(
     CreateLecture: {
       screen: CreateLecture
     },
-    CreateSuccess: {
-      screen: CreateSuccess
-    },
+  
     ScanQR: {
       screen: ScanQRPanel
     }

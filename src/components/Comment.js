@@ -22,7 +22,7 @@ import {formatTime} from "../utils/Date";
 import {show_toast} from '../utils/MyToast';
 import {save_lecture_history} from "../realm/lecture_history";
 import MyQRCode from './MyQRCode';
-import {show_toast} from "../utils/MyToast";
+
 
 export default class Comment extends Component {
   static navigationOptions = {
@@ -31,6 +31,7 @@ export default class Comment extends Component {
 
   constructor(props) {
     super(props);
+    console.log('enter');
     this.state = {
       lectureId: 0,
       lectureTitle: '未知的讲座',

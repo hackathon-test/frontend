@@ -128,8 +128,8 @@ export default class CreateLecture extends Component {
             speaker: json['speaker'],
             expire: json['expire'],
           });
-          show_toast(res.json());
-          this.props.navigation.navigate('CreateSuccess', {lecture: json})
+          console.log(json);
+          this.props.navigation.navigate('Comment', {lectureId: json.id});
         })
 
       })
