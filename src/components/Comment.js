@@ -31,7 +31,6 @@ export default class Comment extends Component {
 
   constructor(props) {
     super(props);
-    console.log('enter');
     this.state = {
       lectureId: 0,
       lectureTitle: '未知的讲座',
@@ -67,7 +66,6 @@ export default class Comment extends Component {
       },
     }).then(res => {
       console.log(res);
-      show_toast(res);
       res.json().then(async json => {
         // const resp = JSON.parse(json)
         console.log(json)
