@@ -92,7 +92,6 @@ export default class ScanQRCode extends Component {
         <View style={[styles.edge, {right: focusAreaLeft, top: focusAreaTop, width: this.edgeLength, height: this.edgeLength, borderTopColor: this.edgeColor, borderTopWidth: this.edgeWidth, borderRightColor: this.edgeColor, borderRightWidth: this.edgeWidth}]} />
         <View style={[styles.edge, {left: focusAreaLeft, top: focusAreaTop+focusAreaHeight-this.edgeLength, width: this.edgeLength, height: this.edgeLength, borderBottomColor: this.edgeColor, borderBottomWidth: this.edgeWidth, borderLeftColor: this.edgeColor, borderLeftWidth: this.edgeWidth}]} />
         <View style={[styles.edge, {right: focusAreaLeft, top: focusAreaTop+focusAreaHeight-this.edgeLength, width: this.edgeLength, height: this.edgeLength, borderBottomColor: this.edgeColor, borderBottomWidth: this.edgeWidth, borderRightColor: this.edgeColor, borderRightWidth: this.edgeWidth}]} />
-
         <View ref={ ref => {this.focusArea = ref;}} style={[styles.focusArea, {left: focusAreaLeft, top: focusAreaTop, width: focusAreaWidth, height: focusAreaHeight}]} />
         <View style={[styles.noticeArea, {left: focusAreaLeft, top: focusAreaTop+focusAreaHeight, width: focusAreaWidth}]}>
           <Text style={styles.notice}>请将讲座二维码放入框内</Text>

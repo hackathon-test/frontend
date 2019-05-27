@@ -8,7 +8,7 @@ import {MAX_LECTURE_DURATION, SERVER} from '../utils/Constants';
 import Styles from '../utils/Styles';
 import {Button} from 'react-native-elements';
 import {save_lecture_history} from "../realm/lecture_history";
-
+import {show_toast} from '../utils/MyToast';
 
 export default class CreateLecture extends Component {
 
@@ -109,6 +109,8 @@ export default class CreateLecture extends Component {
         start: this.state.beginTime,
         validityDays: this.state.duration
       }
+      show_toast(data);
+      show_toast(`${SERVER}/lectures`);
       fetch(`${SERVER}/lectures`, {
         method: 'POST',
         headers: {
@@ -126,7 +128,7 @@ export default class CreateLecture extends Component {
             speaker: json['speaker'],
             expire: json['expire'],
           });
-
+          show_toast(res.json());
           this.props.navigation.navigate('CreateSuccess', {lecture: json})
         })
 

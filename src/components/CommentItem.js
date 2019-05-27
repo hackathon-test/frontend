@@ -6,6 +6,7 @@ import Global from '../utils/Global'
 import {getColorByString} from '../utils/Common'
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {SERVER} from '../utils/Constants';
 
 export default class CommentItem extends Component {
 
@@ -21,8 +22,17 @@ export default class CommentItem extends Component {
     this.setState((prevState) => ({
       isLike: !prevState.isLike,
       likeCount: prevState.isLike ? prevState.likeCount-1 : prevState.likeCount+1
-    }));
-    // 调用接口
+    }), () => {
+      let url = `${SERVER}/comments/${this.props.item.id}?like=${this.state.isLike}`
+      fetch(url, {
+        method: 'PATCH'
+      }).then(res => {
+        console.log(res);
+      }).catch(
+        err => console.log(err)
+      );
+    });
+
   }
 
   render() {
